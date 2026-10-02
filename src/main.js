@@ -109,7 +109,7 @@ function createGalleryWindow() {
     minWidth: 700,
     minHeight: 500,
     title: 'Lucky Dangle — Charm Gallery',
-    backgroundColor: '#1b0a09',
+    backgroundColor: '#f3f6fc',
     icon: path.join(__dirname, '..', 'assets', 'apple-touch-icon.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),

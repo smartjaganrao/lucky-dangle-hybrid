@@ -113,13 +113,13 @@ html, body {
   width: 28px;
   height: 4px;
   border-radius: 2px;
-  background: rgba(227, 167, 60, 0.45);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 1px 3px rgba(11, 25, 48, 0.45);
   transition: background 0.2s, height 0.2s;
 }
 
 .dg-anchor-handle:hover::after {
-  background: #f4c566;
+  background: #2557f5;
   height: 5px;
 }
 
@@ -129,18 +129,15 @@ html, body {
   top: 28px;
   left: 50%;
   transform: translateX(-50%) translateY(-20px);
-  background: rgba(42, 15, 12, 0.92);
-  color: #f6ead2;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(227, 167, 60, 0.5);
-  padding: 7px 16px;
-  border-radius: 20px;
-  font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
-  font-size: 14px;
-  font-style: italic;
-  letter-spacing: 0.01em;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), 0 0 18px rgba(227, 167, 60, 0.15);
+  background: #ffffff;
+  color: #0b1930;
+  border: 1px solid #dde6f5;
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-family: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  box-shadow: 0 14px 30px -14px rgba(11, 25, 48, 0.45);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease, transform 0.3s ease;
@@ -159,9 +156,9 @@ html, body {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  border: 1px solid rgba(227, 167, 60, 0.5);
-  background: rgba(42, 15, 12, 0.92);
-  color: #f6ead2;
+  border: 1px solid #dde6f5;
+  background: #ffffff;
+  color: #5a6b8c;
   font-size: 11px;
   font-weight: 700;
   display: flex;
@@ -170,15 +167,16 @@ html, body {
   cursor: pointer;
   pointer-events: auto;
   opacity: 0;
-  transition: opacity 0.2s ease, background 0.2s;
+  transition: opacity 0.2s ease, background 0.2s, color 0.2s;
   z-index: 1005;
   outline: none;
   transform: translate(-999px, 0);
 }
 
 .dg-close-anchor:hover {
-  background: #b3221a;
-  color: #fff6e0;
+  background: #d8344a;
+  border-color: #d8344a;
+  color: #ffffff;
 }
 
 /* Context Menu */
@@ -186,18 +184,18 @@ html, body {
   position: absolute;
   top: 0;
   left: 0;
-  background: rgba(36, 14, 11, 0.96);
-  border: 1px solid rgba(227, 167, 60, 0.4);
+  background: rgba(255, 255, 255, 0.97);
+  border: 1px solid #dde6f5;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-radius: 10px;
+  border-radius: 16px;
   padding: 6px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 22px 46px -18px rgba(11, 25, 48, 0.5);
   pointer-events: auto;
   z-index: 10000;
   display: none;
-  min-width: 220px;
-  font-family: system-ui, -apple-system, sans-serif;
+  min-width: 230px;
+  font-family: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
 .dg-context-menu.visible {
@@ -208,42 +206,44 @@ html, body {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 7px 12px;
-  font-size: 13px;
-  color: #f0e2c6;
-  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #0b1930;
+  border-radius: 10px;
   cursor: pointer;
   user-select: none;
   transition: background 0.15s ease, color 0.15s ease;
 }
 
 .dg-cm-item:hover {
-  background: rgba(227, 167, 60, 0.18);
-  color: #fff6e0;
+  background: #eaf0fd;
+  color: #2557f5;
 }
 
 .dg-cm-item kbd {
   margin-left: auto;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
   font-size: 11px;
-  color: #c7ab8b;
-  background: rgba(227, 167, 60, 0.1);
-  padding: 1px 5px;
-  border-radius: 4px;
+  color: #5a6b8c;
+  background: #f3f6fc;
+  padding: 1px 6px;
+  border-radius: 6px;
 }
 
 .dg-cm-separator {
   height: 1px;
-  background: rgba(227, 167, 60, 0.22);
+  background: #dde6f5;
   margin: 4px 6px;
 }
 
 .dg-cm-danger {
-  color: #e8a090;
+  color: #d8344a;
 }
 
 .dg-cm-danger:hover {
-  background: rgba(179, 34, 26, 0.45) !important;
-  color: #fff6e0 !important;
+  background: #fdecef !important;
+  color: #d8344a !important;
 }
 
 /* Vector charm details */

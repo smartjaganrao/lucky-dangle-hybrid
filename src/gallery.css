@@ -1,24 +1,23 @@
-/* gallery.css - Warm, traditional styling for the Lucky Dangle gallery & settings window.
-   Palette: oxblood and maroon ground, ivory ink, saffron-brass accents, kumkum red for actions. */
+/* gallery.css - Gallery & settings window.
+   Styled after Jagan's BuildWithJagan site: light ground, white cards, 24px radius,
+   soft navy shadows, a single bright blue brand colour, Bricolage Grotesque + Hanken Grotesk. */
 
 :root {
-  --bg: #1b0a09;
-  --bg-lift: #2a110e;
-  --card-bg: #321612;
-  --card-border: #5b2b1c;
-  --card-hover: #421d16;
-  --panel: #240e0b;
-  --ink: #f6ead2;
-  --muted: #c7ab8b;
-  --accent: #e3a73c;
-  --accent-hover: #f4c566;
-  --accent-soft: rgba(227, 167, 60, 0.14);
-  --accent-line: rgba(227, 167, 60, 0.38);
-  --kumkum: #b3221a;
-  --kumkum-hover: #cc2f26;
-  --gold-gradient: linear-gradient(108deg, #8a5c10 0%, #c8902a 20%, #f6d479 34%, #fff0b8 40%, #cf9622 54%, #f1c860 70%, #a67516 86%, #e8b941 100%);
-  --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
-  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --bg: #f3f6fc;
+  --paper: #ffffff;
+  --ink: #0b1930;
+  --ink-soft: #5a6b8c;
+  --line: #dde6f5;
+  --tint: #eaf0fd;
+  --brand: #2557f5;
+  --brand-deep: #1640d6;
+  --violet: #7c6cf0;
+  --danger: #d8344a;
+  --shadow: 0 22px 46px -22px rgba(11, 25, 48, 0.3);
+  --shadow-sm: 0 10px 26px -16px rgba(11, 25, 48, 0.26);
+  --r: 24px;
+  --font-display: "Bricolage Grotesque", "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-sans: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
 * {
@@ -29,8 +28,8 @@
 
 body {
   background:
-    radial-gradient(900px 380px at 50% -8%, rgba(227, 167, 60, 0.2), transparent 70%),
-    radial-gradient(circle at 1px 1px, rgba(227, 167, 60, 0.08) 1px, transparent 1.6px) 0 0 / 24px 24px,
+    radial-gradient(760px 320px at 85% -6%, rgba(37, 87, 245, 0.1), transparent 70%),
+    radial-gradient(620px 300px at 5% 0%, rgba(124, 108, 240, 0.08), transparent 70%),
     var(--bg);
   background-attachment: fixed;
   color: var(--ink);
@@ -52,12 +51,11 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 18px 32px;
-  background: rgba(36, 14, 11, 0.82);
+  padding: 14px 32px;
+  background: rgba(255, 255, 255, 0.82);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--accent-line);
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5), 0 8px 24px rgba(0, 0, 0, 0.25);
+  border-bottom: 1px solid var(--line);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -66,30 +64,32 @@ body {
 .brand {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
 }
 
 .logo-icon {
-  font-size: 34px;
-  filter: drop-shadow(0 0 10px rgba(255, 170, 60, 0.55));
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  background: var(--tint);
+  border-radius: 14px;
 }
 
 .brand-title {
-  font-family: var(--font-serif);
-  font-size: 28px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  background: var(--gold-gradient);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  line-height: 1.1;
 }
 
 .brand-sub {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 13px;
-  color: var(--muted);
+  font-size: 12.5px;
+  color: var(--ink-soft);
 }
 
 .header-actions {
@@ -101,43 +101,45 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 18px;
+  padding: 9px 18px;
   border-radius: 999px;
-  border: 1px solid var(--accent-line);
-  background: transparent;
+  border: 1px solid var(--line);
+  background: var(--paper);
   color: var(--ink);
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.02em;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 .action-btn:hover {
-  background: var(--accent-soft);
-  border-color: var(--accent);
+  border-color: var(--brand);
+  color: var(--brand);
 }
 
 .action-btn.primary {
-  background: var(--kumkum);
-  border-color: #e0a04a;
-  color: #fff6e0;
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
+  box-shadow: 0 8px 20px -10px rgba(37, 87, 245, 0.8);
 }
 
 .action-btn.primary:hover {
-  background: var(--kumkum-hover);
-  box-shadow: 0 2px 14px rgba(204, 47, 38, 0.45);
+  background: var(--brand-deep);
+  border-color: var(--brand-deep);
+  color: #fff;
+  transform: translateY(-1px);
 }
 
 .action-btn.danger {
-  border-color: rgba(199, 171, 139, 0.35);
-  color: var(--muted);
+  color: var(--ink-soft);
 }
 
 .action-btn.danger:hover {
-  background: rgba(179, 34, 26, 0.3);
-  border-color: var(--kumkum-hover);
-  color: #fff6e0;
+  background: #fdecef;
+  border-color: var(--danger);
+  color: var(--danger);
 }
 
 /* Main Content */
@@ -145,43 +147,32 @@ body {
   flex: 1;
   max-width: 1100px;
   margin: 0 auto;
-  padding: 36px 24px;
+  padding: 40px 24px;
   width: 100%;
 }
 
 .section-intro {
   margin-bottom: 28px;
-  text-align: center;
 }
 
 .section-intro h2 {
-  font-family: var(--font-serif);
-  font-size: 32px;
-  font-weight: 500;
-  letter-spacing: 0.01em;
-  margin-bottom: 8px;
-}
-
-/* Ornamental rule: line - diamond - line */
-.section-intro h2::after {
-  content: "";
-  display: block;
-  width: 220px;
-  height: 14px;
-  margin: 12px auto 0;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 14'%3E%3Cpath d='M0 7H96M124 7H220' stroke='%23e3a73c' stroke-opacity='.45'/%3E%3Cpath d='M110 1L117 7L110 13L103 7Z' fill='%23e3a73c'/%3E%3C/svg%3E") center / contain no-repeat;
+  font-family: var(--font-display);
+  font-size: clamp(30px, 4vw, 42px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  margin-bottom: 10px;
 }
 
 .section-intro p {
-  color: var(--muted);
-  font-size: 15px;
+  color: var(--ink-soft);
+  font-size: 15.5px;
   max-width: 640px;
-  margin: 14px auto 0;
 }
 
 .section-intro strong {
   color: var(--ink);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 /* Custom Emoji Bar + Custom Image Bar */
@@ -192,10 +183,11 @@ body {
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 16px;
-  background: linear-gradient(180deg, var(--card-bg), var(--panel));
-  border: 1px solid var(--card-border);
-  border-radius: 14px;
-  padding: 16px 20px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  box-shadow: var(--shadow-sm);
+  padding: 16px 22px;
   margin-bottom: 16px;
 }
 
@@ -212,25 +204,26 @@ body {
 
 .image-upload-info strong,
 .emoji-info strong {
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: -0.01em;
   display: block;
 }
 
 .image-upload-info p,
 .emoji-info p {
-  font-size: 12px;
-  color: var(--muted);
+  font-size: 12.5px;
+  color: var(--ink-soft);
 }
 
 .image-preview-box {
   width: 48px;
   height: 48px;
-  font-size: 26px;
-  background: rgba(227, 167, 60, 0.06);
-  border: 1px dashed var(--accent-line);
-  border-radius: 10px;
+  font-size: 24px;
+  background: var(--tint);
+  border: 1px dashed #b8c8ef;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -250,12 +243,11 @@ body {
 }
 
 .emoji-preview {
-  font-size: 34px;
-  background: rgba(227, 167, 60, 0.08);
-  border: 1px solid var(--accent-line);
-  border-radius: 50%;
-  width: 54px;
-  height: 54px;
+  font-size: 30px;
+  background: var(--tint);
+  border-radius: 14px;
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -272,44 +264,46 @@ body {
   height: 38px;
   text-align: center;
   font-size: 20px;
-  background: #170807;
-  border: 1px solid var(--card-border);
-  border-radius: 8px;
-  color: #fff;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  color: var(--ink);
   outline: none;
 }
 
 .emoji-input-group input:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-soft);
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px rgba(37, 87, 245, 0.16);
 }
 
 .pill-btn {
-  padding: 8px 18px;
+  padding: 9px 18px;
   border-radius: 999px;
-  border: 1px solid var(--accent);
-  background: var(--accent-soft);
-  color: var(--accent-hover);
+  border: 1px solid var(--brand);
+  background: var(--brand);
+  color: #fff;
+  font-family: inherit;
   font-weight: 600;
-  font-size: 13px;
+  font-size: 13.5px;
   cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
 .pill-btn:hover {
-  background: var(--accent);
-  color: #2a0f0b;
+  background: var(--brand-deep);
+  transform: translateY(-1px);
 }
 
 .pill-btn.secondary {
-  background: transparent;
-  border-color: var(--accent-line);
+  background: var(--paper);
+  border-color: var(--line);
   color: var(--ink);
 }
 
 .pill-btn.secondary:hover {
-  background: var(--accent-soft);
-  color: var(--ink);
+  border-color: var(--brand);
+  color: var(--brand);
+  background: var(--paper);
 }
 
 .emoji-quick-picks {
@@ -318,12 +312,12 @@ body {
 }
 
 .emoji-quick {
-  background: rgba(227, 167, 60, 0.05);
-  border: 1px solid var(--card-border);
-  border-radius: 50%;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 12px;
   font-size: 18px;
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -332,23 +326,24 @@ body {
 }
 
 .emoji-quick:hover {
-  transform: scale(1.12);
-  background: var(--accent-soft);
-  border-color: var(--accent-line);
+  transform: translateY(-2px);
+  background: var(--tint);
+  border-color: #b8c8ef;
 }
 
 /* Charms Grid */
 .charms-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 22px;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 20px;
 }
 
 .charm-card {
-  background: linear-gradient(180deg, var(--card-bg), var(--panel));
-  border: 1px solid var(--card-border);
-  border-radius: 18px;
-  padding: 18px 20px 20px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  box-shadow: var(--shadow-sm);
+  padding: 14px 14px 20px;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -356,52 +351,47 @@ body {
 }
 
 .charm-card:hover {
-  transform: translateY(-2px);
-  border-color: var(--accent-line);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.42);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
 }
 
 .charm-card.active {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 1px var(--accent), 0 10px 28px rgba(227, 167, 60, 0.18);
+  border-color: var(--brand);
+  box-shadow: 0 0 0 1px var(--brand), var(--shadow);
 }
 
 .active-badge {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: 24px;
+  right: 24px;
   z-index: 2;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  padding: 3px 9px;
-  background: var(--accent);
-  color: #2a0f0b;
+  letter-spacing: 0.02em;
+  padding: 3px 10px;
+  background: var(--brand);
+  color: #fff;
   border-radius: 999px;
 }
 
-/* Arched, temple-niche panel behind each charm */
+/* Soft panel behind each charm */
 .card-art {
-  height: 156px;
+  height: 160px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 16px;
-  width: 78%;
-  border-radius: 80px 80px 12px 12px;
-  border: 1px solid var(--accent-line);
+  margin-bottom: 16px;
+  border-radius: 18px;
   background:
-    radial-gradient(circle at 50% 38%, rgba(255, 190, 90, 0.26), transparent 62%),
-    linear-gradient(180deg, #4a1f16, #2a100d);
-  box-shadow: inset 0 0 22px rgba(0, 0, 0, 0.45);
+    radial-gradient(circle at 50% 30%, #ffffff, rgba(255, 255, 255, 0) 62%),
+    linear-gradient(180deg, #e8eefc, #dce6fa);
 }
 
 .card-img {
-  max-height: 110px;
-  max-width: 110px;
+  max-height: 112px;
+  max-width: 112px;
   object-fit: contain;
-  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(0 8px 10px rgba(11, 25, 48, 0.28));
   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
@@ -411,35 +401,42 @@ body {
 
 .card-emoji-art {
   font-size: 64px;
-  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(0 8px 10px rgba(11, 25, 48, 0.25));
+}
+
+.card-title,
+.card-origin,
+.card-desc,
+.card-actions {
+  margin-left: 8px;
+  margin-right: 8px;
 }
 
 .card-title {
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-size: 21px;
-  font-weight: 600;
+  font-weight: 800;
+  letter-spacing: -0.02em;
   color: var(--ink);
   margin-bottom: 2px;
-  text-align: center;
 }
 
 .card-origin {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 13px;
-  color: var(--accent);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--brand);
   margin-bottom: 10px;
   display: block;
-  text-align: center;
 }
 
 .card-desc {
-  font-size: 13px;
-  color: var(--muted);
-  line-height: 1.5;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.55;
   margin-bottom: 18px;
   flex: 1;
-  text-align: center;
 }
 
 .card-actions {
@@ -451,12 +448,13 @@ body {
 .card-btn {
   flex: 1 1 auto;
   white-space: nowrap;
-  padding: 8px 12px;
+  padding: 8px 14px;
   border-radius: 999px;
-  font-size: 12px;
+  font-family: inherit;
+  font-size: 12.5px;
   font-weight: 600;
-  border: 1px solid var(--accent-line);
-  background: transparent;
+  border: 1px solid var(--line);
+  background: var(--paper);
   color: var(--ink);
   cursor: pointer;
   transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
@@ -467,44 +465,47 @@ body {
 }
 
 .card-btn:hover {
-  background: var(--accent-soft);
-  border-color: var(--accent);
+  border-color: var(--brand);
+  color: var(--brand);
 }
 
 .card-btn.hang {
-  background: var(--kumkum);
-  border-color: #e0a04a;
-  color: #fff6e0;
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
 }
 
 .card-btn.hang:hover {
-  background: var(--kumkum-hover);
+  background: var(--brand-deep);
+  border-color: var(--brand-deep);
+  color: #fff;
 }
 
 .card-btn.upload-image {
-  background: var(--accent-soft);
-  border-color: var(--accent);
-  color: var(--accent-hover);
+  background: var(--tint);
+  border-color: #b8c8ef;
+  color: var(--brand);
 }
 
 .card-btn.upload-image:hover {
-  background: var(--accent);
-  color: #2a0f0b;
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
 }
 
 .charm-card[data-slug="custom-image"] .card-art {
-  border-style: dashed;
-  transition: border-color 0.2s ease, background 0.2s ease;
+  border: 1px dashed #b8c8ef;
+  transition: border-color 0.2s ease;
 }
 
 .charm-card[data-slug="custom-image"] .card-art:hover {
-  border-color: var(--accent);
+  border-color: var(--brand);
 }
 
 .charm-card.active .card-btn.hang {
-  background: var(--accent-soft);
-  border-color: var(--accent);
-  color: var(--accent-hover);
+  background: var(--tint);
+  border-color: #b8c8ef;
+  color: var(--brand);
 }
 
 /* Footer */
@@ -513,31 +514,32 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 16px 32px;
-  border-top: 1px solid var(--accent-line);
-  background: rgba(36, 14, 11, 0.7);
-  font-size: 12px;
-  color: var(--muted);
+  border-top: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.7);
+  font-size: 12.5px;
+  color: var(--ink-soft);
   flex-wrap: wrap;
   gap: 8px;
 }
 
 kbd {
-  background: rgba(227, 167, 60, 0.1);
-  border: 1px solid var(--accent-line);
-  border-radius: 4px;
-  padding: 2px 6px;
-  font-family: inherit;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-bottom-width: 2px;
+  border-radius: 6px;
+  padding: 1px 7px;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
   font-size: 11px;
   color: var(--ink);
 }
 
 /* Vector (SVG) charm art on gallery cards */
 .card-svg {
-  height: 112px;
+  height: 114px;
   width: auto;
   max-width: 110px;
   overflow: visible;
-  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(0 8px 10px rgba(11, 25, 48, 0.28));
   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 .charm-card:hover .card-svg {
@@ -568,5 +570,5 @@ kbd {
 }
 @media (prefers-reduced-motion: reduce) {
   .ld-flame { animation: none; }
-  .charm-card, .card-img, .card-svg { transition: none; }
+  .charm-card, .card-img, .card-svg, .action-btn, .pill-btn { transition: none; }
 }
