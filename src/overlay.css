@@ -113,13 +113,13 @@ html, body {
   width: 28px;
   height: 4px;
   border-radius: 2px;
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(227, 167, 60, 0.45);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
   transition: background 0.2s, height 0.2s;
 }
 
 .dg-anchor-handle:hover::after {
-  background: rgba(255, 215, 0, 0.85);
+  background: #f4c566;
   height: 5px;
 }
 
@@ -129,17 +129,18 @@ html, body {
   top: 28px;
   left: 50%;
   transform: translateX(-50%) translateY(-20px);
-  background: rgba(18, 22, 36, 0.85);
-  color: #f7f9fd;
+  background: rgba(42, 15, 12, 0.92);
+  color: #f6ead2;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  padding: 6px 14px;
+  border: 1px solid rgba(227, 167, 60, 0.5);
+  padding: 7px 16px;
   border-radius: 20px;
-  font-family: system-ui, -apple-system, sans-serif;
-  font-size: 13px;
-  font-weight: 500;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  font-size: 14px;
+  font-style: italic;
+  letter-spacing: 0.01em;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), 0 0 18px rgba(227, 167, 60, 0.15);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease, transform 0.3s ease;
@@ -158,9 +159,9 @@ html, body {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  background: rgba(20, 24, 38, 0.9);
-  color: #fca5a5;
+  border: 1px solid rgba(227, 167, 60, 0.5);
+  background: rgba(42, 15, 12, 0.92);
+  color: #f6ead2;
   font-size: 11px;
   font-weight: 700;
   display: flex;
@@ -176,8 +177,8 @@ html, body {
 }
 
 .dg-close-anchor:hover {
-  background: #ef4444;
-  color: #ffffff;
+  background: #b3221a;
+  color: #fff6e0;
 }
 
 /* Context Menu */
@@ -185,17 +186,17 @@ html, body {
   position: absolute;
   top: 0;
   left: 0;
-  background: rgba(15, 19, 34, 0.95);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(36, 14, 11, 0.96);
+  border: 1px solid rgba(227, 167, 60, 0.4);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-radius: 10px;
   padding: 6px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 0, 0, 0.4);
   pointer-events: auto;
   z-index: 10000;
   display: none;
-  min-width: 190px;
+  min-width: 220px;
   font-family: system-ui, -apple-system, sans-serif;
 }
 
@@ -209,7 +210,7 @@ html, body {
   gap: 8px;
   padding: 7px 12px;
   font-size: 13px;
-  color: #e2e8f0;
+  color: #f0e2c6;
   border-radius: 6px;
   cursor: pointer;
   user-select: none;
@@ -217,32 +218,32 @@ html, body {
 }
 
 .dg-cm-item:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
+  background: rgba(227, 167, 60, 0.18);
+  color: #fff6e0;
 }
 
 .dg-cm-item kbd {
   margin-left: auto;
   font-size: 11px;
-  color: #94a3b8;
-  background: rgba(255, 255, 255, 0.08);
+  color: #c7ab8b;
+  background: rgba(227, 167, 60, 0.1);
   padding: 1px 5px;
   border-radius: 4px;
 }
 
 .dg-cm-separator {
   height: 1px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(227, 167, 60, 0.22);
   margin: 4px 6px;
 }
 
 .dg-cm-danger {
-  color: #fca5a5;
+  color: #e8a090;
 }
 
 .dg-cm-danger:hover {
-  background: rgba(239, 68, 68, 0.25) !important;
-  color: #ffffff !important;
+  background: rgba(179, 34, 26, 0.45) !important;
+  color: #fff6e0 !important;
 }
 
 /* Vector charm details */
@@ -266,4 +267,10 @@ html, body {
 }
 @media (prefers-reduced-motion: reduce) {
   .ld-flame, .ld-flame-glow { animation: none; }
+}
+
+.dg-cm-icon {
+  display: inline-block;
+  width: 18px;
+  text-align: center;
 }

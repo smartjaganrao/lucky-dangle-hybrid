@@ -1,17 +1,22 @@
-/* gallery.css - Editorial styling for Lucky Dangle Gallery & Settings */
+/* gallery.css - Warm, traditional styling for the Lucky Dangle gallery & settings window.
+   Palette: oxblood and maroon ground, ivory ink, saffron-brass accents, kumkum red for actions. */
 
 :root {
-  --bg: #0f1322;
-  --card-bg: #171d30;
-  --card-border: #283049;
-  --card-hover: #1f2742;
-  --ink: #e9edf8;
-  --muted: #9aa3bd;
-  --accent: #d8a844;
-  --accent-hover: #f0ca5d;
-  --accent-bg: #3a5ae0;
-  --accent-btn: #2b49cb;
-  --gold-gradient: linear-gradient(108deg, #76500d 0%, #b78319 18%, #f2cf67 31%, #fff4bd 39%, #c28b1d 51%, #f0ca5d 68%, #9b6a12 84%, #e3b744 100%);
+  --bg: #1b0a09;
+  --bg-lift: #2a110e;
+  --card-bg: #321612;
+  --card-border: #5b2b1c;
+  --card-hover: #421d16;
+  --panel: #240e0b;
+  --ink: #f6ead2;
+  --muted: #c7ab8b;
+  --accent: #e3a73c;
+  --accent-hover: #f4c566;
+  --accent-soft: rgba(227, 167, 60, 0.14);
+  --accent-line: rgba(227, 167, 60, 0.38);
+  --kumkum: #b3221a;
+  --kumkum-hover: #cc2f26;
+  --gold-gradient: linear-gradient(108deg, #8a5c10 0%, #c8902a 20%, #f6d479 34%, #fff0b8 40%, #cf9622 54%, #f1c860 70%, #a67516 86%, #e8b941 100%);
   --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
   --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
@@ -23,7 +28,11 @@
 }
 
 body {
-  background-color: var(--bg);
+  background:
+    radial-gradient(900px 380px at 50% -8%, rgba(227, 167, 60, 0.2), transparent 70%),
+    radial-gradient(circle at 1px 1px, rgba(227, 167, 60, 0.08) 1px, transparent 1.6px) 0 0 / 24px 24px,
+    var(--bg);
+  background-attachment: fixed;
   color: var(--ink);
   font-family: var(--font-sans);
   line-height: 1.5;
@@ -43,11 +52,12 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 32px;
-  background: rgba(23, 29, 48, 0.7);
+  padding: 18px 32px;
+  background: rgba(36, 14, 11, 0.82);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--card-border);
+  border-bottom: 1px solid var(--accent-line);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5), 0 8px 24px rgba(0, 0, 0, 0.25);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -60,70 +70,74 @@ body {
 }
 
 .logo-icon {
-  font-size: 32px;
+  font-size: 34px;
+  filter: drop-shadow(0 0 10px rgba(255, 170, 60, 0.55));
 }
 
 .brand-title {
   font-family: var(--font-serif);
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 600;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.01em;
   background: var(--gold-gradient);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .brand-sub {
+  font-family: var(--font-serif);
+  font-style: italic;
   font-size: 13px;
   color: var(--muted);
 }
 
 .header-actions {
   display: flex;
-  gap: 12px;
+  gap: 10px;
 }
 
 .action-btn {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 16px;
-  border-radius: 8px;
-  border: 1px solid var(--card-border);
-  background: var(--card-bg);
+  padding: 8px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--accent-line);
+  background: transparent;
   color: var(--ink);
   font-size: 13px;
   font-weight: 500;
+  letter-spacing: 0.02em;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .action-btn:hover {
-  background: var(--card-hover);
-  border-color: #3e4b70;
+  background: var(--accent-soft);
+  border-color: var(--accent);
 }
 
 .action-btn.primary {
-  background: var(--accent-btn);
-  border-color: #4b6bee;
-  color: #ffffff;
+  background: var(--kumkum);
+  border-color: #e0a04a;
+  color: #fff6e0;
 }
 
 .action-btn.primary:hover {
-  background: #3957dd;
-  box-shadow: 0 2px 10px rgba(58, 90, 224, 0.4);
+  background: var(--kumkum-hover);
+  box-shadow: 0 2px 14px rgba(204, 47, 38, 0.45);
 }
 
 .action-btn.danger {
-  border-color: rgba(239, 68, 68, 0.45);
-  color: #fca5a5;
+  border-color: rgba(199, 171, 139, 0.35);
+  color: var(--muted);
 }
 
 .action-btn.danger:hover {
-  background: rgba(239, 68, 68, 0.2);
-  border-color: #ef4444;
-  color: #ffffff;
-  box-shadow: 0 2px 10px rgba(239, 68, 68, 0.35);
+  background: rgba(179, 34, 26, 0.3);
+  border-color: var(--kumkum-hover);
+  color: #fff6e0;
 }
 
 /* Main Content */
@@ -131,67 +145,81 @@ body {
   flex: 1;
   max-width: 1100px;
   margin: 0 auto;
-  padding: 32px 24px;
+  padding: 36px 24px;
   width: 100%;
 }
 
 .section-intro {
   margin-bottom: 28px;
+  text-align: center;
 }
 
 .section-intro h2 {
   font-family: var(--font-serif);
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 500;
-  margin-bottom: 6px;
+  letter-spacing: 0.01em;
+  margin-bottom: 8px;
+}
+
+/* Ornamental rule: line - diamond - line */
+.section-intro h2::after {
+  content: "";
+  display: block;
+  width: 220px;
+  height: 14px;
+  margin: 12px auto 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 14'%3E%3Cpath d='M0 7H96M124 7H220' stroke='%23e3a73c' stroke-opacity='.45'/%3E%3Cpath d='M110 1L117 7L110 13L103 7Z' fill='%23e3a73c'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 
 .section-intro p {
   color: var(--muted);
   font-size: 15px;
   max-width: 640px;
+  margin: 14px auto 0;
 }
 
-/* Custom Emoji Bar */
-.custom-emoji-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 16px;
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 14px;
-  padding: 16px 20px;
-  margin-bottom: 16px;
+.section-intro strong {
+  color: var(--ink);
+  font-weight: 600;
 }
 
-/* Custom Image Bar */
+/* Custom Emoji Bar + Custom Image Bar */
+.custom-emoji-bar,
 .custom-image-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 16px;
-  background: var(--card-bg);
+  background: linear-gradient(180deg, var(--card-bg), var(--panel));
   border: 1px solid var(--card-border);
   border-radius: 14px;
   padding: 16px 20px;
-  margin-bottom: 32px;
+  margin-bottom: 16px;
 }
 
-.image-upload-info {
+.custom-image-bar {
+  margin-bottom: 36px;
+}
+
+.image-upload-info,
+.emoji-info {
   display: flex;
   align-items: center;
   gap: 14px;
 }
 
-.image-upload-info strong {
-  font-size: 15px;
+.image-upload-info strong,
+.emoji-info strong {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  font-weight: 600;
   display: block;
 }
 
-.image-upload-info p {
+.image-upload-info p,
+.emoji-info p {
   font-size: 12px;
   color: var(--muted);
 }
@@ -200,8 +228,8 @@ body {
   width: 48px;
   height: 48px;
   font-size: 26px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px dashed rgba(255, 255, 255, 0.2);
+  background: rgba(227, 167, 60, 0.06);
+  border: 1px dashed var(--accent-line);
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -221,38 +249,16 @@ body {
   gap: 10px;
 }
 
-.pill-btn.secondary {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.2);
-  color: #f1f5f9;
-}
-
-.pill-btn.secondary:hover {
-  background: rgba(255, 255, 255, 0.16);
-  color: #ffffff;
-}
-
-.emoji-info {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
 .emoji-preview {
   font-size: 34px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 10px;
-  padding: 4px 10px;
-}
-
-.emoji-info strong {
-  font-size: 15px;
-  display: block;
-}
-
-.emoji-info p {
-  font-size: 12px;
-  color: var(--muted);
+  background: rgba(227, 167, 60, 0.08);
+  border: 1px solid var(--accent-line);
+  border-radius: 50%;
+  width: 54px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .emoji-input-group {
@@ -266,7 +272,7 @@ body {
   height: 38px;
   text-align: center;
   font-size: 20px;
-  background: #0d101a;
+  background: #170807;
   border: 1px solid var(--card-border);
   border-radius: 8px;
   color: #fff;
@@ -275,23 +281,35 @@ body {
 
 .emoji-input-group input:focus {
   border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
 }
 
 .pill-btn {
-  padding: 8px 16px;
-  border-radius: 8px;
-  border: 1px solid #d8a844;
-  background: rgba(216, 168, 68, 0.15);
-  color: var(--accent);
+  padding: 8px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent-hover);
   font-weight: 600;
   font-size: 13px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 .pill-btn:hover {
   background: var(--accent);
-  color: #0f1322;
+  color: #2a0f0b;
+}
+
+.pill-btn.secondary {
+  background: transparent;
+  border-color: var(--accent-line);
+  color: var(--ink);
+}
+
+.pill-btn.secondary:hover {
+  background: var(--accent-soft);
+  color: var(--ink);
 }
 
 .emoji-quick-picks {
@@ -300,9 +318,9 @@ body {
 }
 
 .emoji-quick {
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(227, 167, 60, 0.05);
   border: 1px solid var(--card-border);
-  border-radius: 6px;
+  border-radius: 50%;
   font-size: 18px;
   width: 34px;
   height: 34px;
@@ -310,26 +328,27 @@ body {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: transform 0.15s, background 0.15s;
+  transition: transform 0.15s, background 0.15s, border-color 0.15s;
 }
 
 .emoji-quick:hover {
-  transform: scale(1.15);
-  background: rgba(255, 255, 255, 0.12);
+  transform: scale(1.12);
+  background: var(--accent-soft);
+  border-color: var(--accent-line);
 }
 
 /* Charms Grid */
 .charms-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
+  gap: 22px;
 }
 
 .charm-card {
-  background: var(--card-bg);
+  background: linear-gradient(180deg, var(--card-bg), var(--panel));
   border: 1px solid var(--card-border);
-  border-radius: 16px;
-  padding: 22px;
+  border-radius: 18px;
+  padding: 18px 20px 20px;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -338,43 +357,51 @@ body {
 
 .charm-card:hover {
   transform: translateY(-2px);
-  border-color: #3f4d75;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+  border-color: var(--accent-line);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.42);
 }
 
 .charm-card.active {
   border-color: var(--accent);
-  box-shadow: 0 0 0 1px var(--accent), 0 8px 24px rgba(216, 168, 68, 0.15);
+  box-shadow: 0 0 0 1px var(--accent), 0 10px 28px rgba(227, 167, 60, 0.18);
 }
 
 .active-badge {
   position: absolute;
-  top: 14px;
-  right: 14px;
-  font-size: 11px;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  padding: 3px 8px;
-  background: rgba(216, 168, 68, 0.2);
-  color: var(--accent);
-  border-radius: 6px;
-  border: 1px solid rgba(216, 168, 68, 0.4);
+  letter-spacing: 0.08em;
+  padding: 3px 9px;
+  background: var(--accent);
+  color: #2a0f0b;
+  border-radius: 999px;
 }
 
+/* Arched, temple-niche panel behind each charm */
 .card-art {
-  height: 140px;
+  height: 156px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 14px;
+  margin: 0 auto 16px;
+  width: 78%;
+  border-radius: 80px 80px 12px 12px;
+  border: 1px solid var(--accent-line);
+  background:
+    radial-gradient(circle at 50% 38%, rgba(255, 190, 90, 0.26), transparent 62%),
+    linear-gradient(180deg, #4a1f16, #2a100d);
+  box-shadow: inset 0 0 22px rgba(0, 0, 0, 0.45);
 }
 
 .card-img {
   max-height: 110px;
   max-width: 110px;
   object-fit: contain;
-  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.45));
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.5));
   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
@@ -384,49 +411,55 @@ body {
 
 .card-emoji-art {
   font-size: 64px;
-  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.45));
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.5));
 }
 
 .card-title {
   font-family: var(--font-serif);
-  font-size: 20px;
+  font-size: 21px;
   font-weight: 600;
-  color: #ffffff;
-  margin-bottom: 3px;
+  color: var(--ink);
+  margin-bottom: 2px;
+  text-align: center;
 }
 
 .card-origin {
-  font-size: 12px;
-  font-weight: 500;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 13px;
   color: var(--accent);
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   display: block;
+  text-align: center;
 }
 
 .card-desc {
   font-size: 13px;
   color: var(--muted);
-  line-height: 1.45;
+  line-height: 1.5;
   margin-bottom: 18px;
   flex: 1;
+  text-align: center;
 }
 
 .card-actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
 }
 
 .card-btn {
-  flex: 1;
+  flex: 1 1 auto;
+  white-space: nowrap;
   padding: 8px 12px;
-  border-radius: 8px;
+  border-radius: 999px;
   font-size: 12px;
   font-weight: 600;
-  border: 1px solid var(--card-border);
-  background: #111524;
+  border: 1px solid var(--accent-line);
+  background: transparent;
   color: var(--ink);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -434,48 +467,44 @@ body {
 }
 
 .card-btn:hover {
-  background: var(--card-hover);
-  border-color: #4a5985;
+  background: var(--accent-soft);
+  border-color: var(--accent);
 }
 
 .card-btn.hang {
-  background: var(--accent-btn);
-  border-color: #4b6bee;
-  color: #fff;
+  background: var(--kumkum);
+  border-color: #e0a04a;
+  color: #fff6e0;
 }
 
 .card-btn.hang:hover {
-  background: #3957dd;
+  background: var(--kumkum-hover);
 }
 
 .card-btn.upload-image {
-  background: rgba(216, 168, 68, 0.15);
-  border-color: rgba(216, 168, 68, 0.4);
-  color: var(--accent);
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent-hover);
 }
 
 .card-btn.upload-image:hover {
   background: var(--accent);
-  color: #0f1322;
-  border-color: var(--accent);
+  color: #2a0f0b;
 }
 
 .charm-card[data-slug="custom-image"] .card-art {
-  border-radius: 12px;
-  border: 1px dashed rgba(255, 255, 255, 0.15);
-  background: rgba(255, 255, 255, 0.02);
-  transition: all 0.2s ease;
+  border-style: dashed;
+  transition: border-color 0.2s ease, background 0.2s ease;
 }
 
 .charm-card[data-slug="custom-image"] .card-art:hover {
   border-color: var(--accent);
-  background: rgba(216, 168, 68, 0.05);
 }
 
 .charm-card.active .card-btn.hang {
-  background: rgba(216, 168, 68, 0.2);
+  background: var(--accent-soft);
   border-color: var(--accent);
-  color: var(--accent);
+  color: var(--accent-hover);
 }
 
 /* Footer */
@@ -484,8 +513,8 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 16px 32px;
-  border-top: 1px solid var(--card-border);
-  background: rgba(23, 29, 48, 0.5);
+  border-top: 1px solid var(--accent-line);
+  background: rgba(36, 14, 11, 0.7);
   font-size: 12px;
   color: var(--muted);
   flex-wrap: wrap;
@@ -493,22 +522,22 @@ body {
 }
 
 kbd {
-  background: #283049;
-  border: 1px solid #3c486e;
+  background: rgba(227, 167, 60, 0.1);
+  border: 1px solid var(--accent-line);
   border-radius: 4px;
   padding: 2px 6px;
   font-family: inherit;
   font-size: 11px;
-  color: #e9edf8;
+  color: var(--ink);
 }
 
 /* Vector (SVG) charm art on gallery cards */
 .card-svg {
-  height: 110px;
+  height: 112px;
   width: auto;
   max-width: 110px;
   overflow: visible;
-  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.45));
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.5));
   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 .charm-card:hover .card-svg {
@@ -536,4 +565,8 @@ kbd {
 .card-btn:disabled {
   opacity: 0.4;
   cursor: not-allowed;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ld-flame { animation: none; }
+  .charm-card, .card-img, .card-svg { transition: none; }
 }

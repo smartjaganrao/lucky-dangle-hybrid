@@ -12,21 +12,21 @@
   <div class="app-window">
     <header class="gallery-header">
       <div class="brand">
-        <span class="logo-icon">🧿</span>
+        <span class="logo-icon">🪔</span>
         <div>
           <h1 class="brand-title">Lucky Dangle</h1>
           <p class="brand-sub">A lucky charm for your screen</p>
         </div>
       </div>
       <div class="header-actions">
-        <button id="btn-toggle-dangle" class="action-btn" title="Toggle charm on/off screen (Ctrl+D)">
-          <span class="btn-icon">🪟</span> <span id="toggle-label">Hide Charms</span>
+        <button id="btn-toggle-dangle" class="action-btn" title="Show or hide the charms (Ctrl+Shift+D)">
+          <span id="toggle-label">Hide Charms</span>
         </button>
-        <button id="btn-ritual-quick" class="action-btn primary" title="Perform charm ritual (Ctrl+S)">
-          <span class="btn-icon">✨</span> Perform Ritual
+        <button id="btn-ritual-quick" class="action-btn primary" title="Perform the ritual (Ctrl+Shift+S)">
+          Perform Ritual
         </button>
         <button id="btn-quit-app" class="action-btn danger" title="Quit Lucky Dangle completely">
-          <span class="btn-icon">❌</span> Quit App
+          Quit
         </button>
       </div>
     </header>
@@ -34,7 +34,7 @@
     <main class="gallery-content">
       <section class="section-intro">
         <h2>Choose your charm</h2>
-        <p>Each one comes from a tradition around the world, with a small ritual of its own. <strong>Hang charm</strong> swaps your current charm; <strong>＋ Add</strong> hangs another beside it, up to eight at once.</p>
+        <p>Each charm comes from a tradition with a small ritual of its own. <strong>Hang charm</strong> swaps your current charm. <strong>＋ Add</strong> hangs another beside it, up to eight at once.</p>
       </section>
 
       <!-- Emoji customizer bar -->
@@ -72,13 +72,13 @@
           </div>
           <div>
             <strong>Upload Custom Image Charm</strong>
-            <p>Select any picture from your PC (.png, .jpg, .webp) to hang it as your custom screen charm.</p>
+            <p>Choose any picture (.png, .jpg, .webp) to hang as your own charm.</p>
           </div>
         </div>
         <div class="image-upload-controls">
           <input type="file" id="image-file-input" accept="image/*" style="display: none;">
-          <button id="btn-browse-image" class="pill-btn secondary">📁 Choose Image...</button>
-          <button id="btn-hang-image" class="pill-btn" style="display: none;">✓ Hang Image</button>
+          <button id="btn-browse-image" class="pill-btn secondary">Choose Image…</button>
+          <button id="btn-hang-image" class="pill-btn" style="display: none;">Hang Image</button>
         </div>
       </div>
 
@@ -90,7 +90,7 @@
 
     <footer class="gallery-footer">
       <div class="shortcuts-hint">
-        <span>Shortcuts: <kbd>Ctrl+D</kbd> Toggle Dangle · <kbd>Ctrl+S</kbd> Perform Ritual</span>
+        <span>Shortcuts: <kbd>Ctrl+Shift+D</kbd> Show or hide · <kbd>Ctrl+Shift+S</kbd> Perform ritual</span>
       </div>
       <div class="footer-meta">
         <span>Lucky Dangle · Windows · macOS · Linux</span>

@@ -109,7 +109,7 @@ function createGalleryWindow() {
     minWidth: 700,
     minHeight: 500,
     title: 'Lucky Dangle — Charm Gallery',
-    backgroundColor: '#0f1322',
+    backgroundColor: '#1b0a09',
     icon: path.join(__dirname, '..', 'assets', 'apple-touch-icon.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -155,17 +155,17 @@ function updateTrayMenu() {
   }));
 
   tray.setContextMenu(Menu.buildFromTemplate([
-    { label: `✨ Lucky Dangle · ${hanging} hanging`, enabled: false },
+    { label: `🪔 Lucky Dangle · ${hanging} hanging`, enabled: false },
     { type: 'separator' },
-    { label: `Dangle / Hide All (${MOD_LABEL}+Shift+D)`, click: () => sendToOverlay('toggle-dangle-event') },
-    { label: `Perform Rituals (${MOD_LABEL}+Shift+S)`, click: () => sendToOverlay('perform-ritual-event') },
+    { label: `Show / Hide Charms (${MOD_LABEL}+Shift+D)`, click: () => sendToOverlay('toggle-dangle-event') },
+    { label: `Perform Ritual (${MOD_LABEL}+Shift+S)`, click: () => sendToOverlay('perform-ritual-event') },
     { type: 'separator' },
     { label: 'Hang Another Charm', submenu: addSubmenu },
     { label: 'Change Current Charm', submenu: changeSubmenu },
-    { label: 'Charm Gallery & Settings…', click: () => createGalleryWindow() },
+    { label: 'Charm Gallery…', click: () => createGalleryWindow() },
     { type: 'separator' },
     {
-      label: 'Quit',
+      label: 'Quit Lucky Dangle',
       click: () => {
         app.isQuitting = true;
         app.quit();
@@ -179,7 +179,7 @@ function createTray() {
   let icon = nativeImage.createFromPath(iconPath);
   if (isMac) icon = icon.resize({ width: 18, height: 18 }); // menu-bar size
   tray = new Tray(icon);
-  tray.setToolTip('Lucky Dangle - Screen Charm');
+  tray.setToolTip('Lucky Dangle');
   updateTrayMenu();
 
   tray.on('double-click', () => {

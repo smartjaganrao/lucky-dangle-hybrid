@@ -1,3 +1,5 @@
+![Lucky Dangle](assets/banner.svg)
+
 # 🪔 Lucky Dangle
 
 **A lucky charm that hangs from the top of your screen while you work.**
