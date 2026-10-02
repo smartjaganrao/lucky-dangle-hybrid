@@ -107,4 +107,4 @@ Before any public or paid release I will:
 
 Done so far: original Indian charms, and several charms on screen at once.
 
-Made by [Jagan](https://github.com/smartjaganrao).
+Made by [Jagan Rao](https://github.com/smartjaganrao).

@@ -18,7 +18,7 @@
     "desktop-toy",
     "overlay"
   ],
-  "author": "Karthik Mahadevan / Lucky Dangle Clone",
+  "author": "Jagan Rao",
   "license": "MIT",
   "devDependencies": {
     "electron": "^34.5.8",
