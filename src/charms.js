@@ -59,6 +59,70 @@ function marigoldSvg() {
   return out;
 }
 
+
+// Rudraksha mala: 27 seeds on a thread loop plus a guru bead and tassel.
+// Slot 14 (bottom of the loop) is the guru bead; the other 27 slots hold seeds.
+const MALA_SLOTS = 28;
+const MALA_GURU_SLOT = 14;
+const MALA_PATH = (() => {
+  // Sample the loop finely so slots can be spaced by arc length, not angle
+  const pts = [];
+  let len = 0;
+  for (let i = 0; i <= 720; i++) {
+    const a = (i / 720) * Math.PI * 2;
+    const p = { x: 17 * Math.sin(a), y: 35 - 28 * Math.cos(a), len: 0 };
+    if (i) len += Math.hypot(p.x - pts[i - 1].x, p.y - pts[i - 1].y);
+    p.len = len;
+    pts.push(p);
+  }
+  return { pts, len };
+})();
+
+function malaSlotPos(k) {
+  const target = (k / MALA_SLOTS) * MALA_PATH.len;
+  const pts = MALA_PATH.pts;
+  let i = 1;
+  while (i < pts.length - 1 && pts[i].len < target) i++;
+  const a = pts[i - 1];
+  const b = pts[i];
+  const t = (target - a.len) / ((b.len - a.len) || 1);
+  return { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t };
+}
+
+function malaSvg() {
+  let seeds = "";
+  for (let k = 0; k < MALA_SLOTS; k++) {
+    if (k === MALA_GURU_SLOT) continue;
+    const { x, y } = malaSlotPos(k);
+    const rot = (k * 47) % 360;
+    seeds += `<g class="ld-mala-bead" data-slot="${k}" transform="translate(${x.toFixed(2)} ${y.toFixed(2)})">
+      <circle class="ld-mala-glow" r="7" fill="url(#ld-halo)" opacity="0"/>
+      <g class="ld-mala-seed"><g transform="rotate(${rot})">
+        <circle r="3.1" fill="url(#ld-rudraksha)"/>
+        <path d="M-1.6 -2 Q-0.6 0 -1.6 2 M0.4 -2.6 Q1.4 0 0.4 2.6 M2 -1.6 Q2.6 0 2 1.6" stroke="#2b1306" stroke-opacity="0.55" stroke-width="0.45" fill="none"/>
+      </g><ellipse cx="-1" cy="-1.3" rx="0.9" ry="0.55" fill="#fff3c4" fill-opacity="0.45"/></g>
+    </g>`;
+  }
+  const g = malaSlotPos(MALA_GURU_SLOT);
+  let tassel = "";
+  for (let i = -3; i <= 3; i++) {
+    tassel += `<path d="M${i * 0.9} 71 Q${i * 1.9} 80 ${i * 2.3} 91" stroke="${i % 2 ? "#d4211a" : "#a8180f"}" stroke-width="1.1" fill="none" stroke-linecap="round"/>`;
+  }
+  return `
+  <circle cx="0" cy="2.2" r="2.4" fill="none" stroke="url(#ld-brass)" stroke-width="1.4"/>
+  <ellipse cx="0" cy="35" rx="17" ry="28" fill="none" stroke="#d4211a" stroke-width="0.7"/>
+  ${seeds}
+  <g class="ld-mala-guru">
+    <circle class="ld-mala-glow" cx="${g.x.toFixed(2)}" cy="${g.y.toFixed(2)}" r="10" fill="url(#ld-halo)" opacity="0"/>
+    <circle cx="${g.x.toFixed(2)}" cy="${g.y.toFixed(2)}" r="4.3" fill="url(#ld-rudraksha)"/>
+    <path d="M-2.4 ${g.y - 2} Q-0.8 ${g.y} -2.4 ${g.y + 2} M0.4 ${g.y - 3} Q2 ${g.y} 0.4 ${g.y + 3} M3 ${g.y - 2} Q3.8 ${g.y} 3 ${g.y + 2}" stroke="#2b1306" stroke-opacity="0.55" stroke-width="0.55" fill="none"/>
+    <ellipse cx="${(g.x - 1.4).toFixed(2)}" cy="${(g.y - 1.8).toFixed(2)}" rx="1.2" ry="0.75" fill="#fff3c4" fill-opacity="0.45"/>
+    <rect x="-1.6" y="67" width="3.2" height="3" rx="1" fill="url(#ld-gold)"/>
+  </g>
+  ${tassel}
+  <rect x="-3.4" y="69" width="6.8" height="2.6" rx="1.2" fill="url(#ld-gold)"/>`;
+}
+
 const CHARMS = [
   {
     slug: "diya",
@@ -91,6 +155,17 @@ const CHARMS = [
     art: { type: "svg", markup: marigoldSvg(), frame: [20, 104], viewBox: "-12 -2 24 108" },
     attach: 0,
     hangOffset: 50,
+    beads: null
+  },
+  {
+    slug: "rudraksha-mala",
+    name: "Rudraksha mala",
+    origin: "India and Nepal",
+    description: "Twenty-seven rudraksha seeds and a guru bead, counted through the fingers while repeating a mantra. Chant a round when you need calm or focus.",
+    ritual: { kind: "japa", label: "Chant a round" },
+    art: { type: "svg", markup: malaSvg(), frame: [44, 94], viewBox: "-22 -2 44 96" },
+    attach: 0,
+    hangOffset: 46,
     beads: null
   },
   {
@@ -379,6 +454,11 @@ function getSvgDefs() {
       <stop offset="60%" stop-color="#e8b33a"/>
       <stop offset="100%" stop-color="#8a5a0c"/>
     </linearGradient>
+    <radialGradient id="ld-rudraksha" cx="35%" cy="30%" r="75%">
+      <stop offset="0%" stop-color="#c58a4a"/>
+      <stop offset="55%" stop-color="#7a4520"/>
+      <stop offset="100%" stop-color="#2e1608"/>
+    </radialGradient>
     <radialGradient id="ld-flameglow" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="rgba(255,200,90,0.75)"/>
       <stop offset="100%" stop-color="rgba(255,160,40,0)"/>
@@ -448,6 +528,8 @@ function renderBead(beadType, radius, emojiGlyph = "🍀") {
 if (typeof module !== "undefined" && module.exports) {
   module.exports = {
     CHARMS,
+    MALA_SLOTS,
+    MALA_GURU_SLOT,
     DRISHTI_COLORS,
     GARLAND_CONFIG,
     getSvgDefs,

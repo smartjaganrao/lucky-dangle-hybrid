@@ -384,6 +384,11 @@
           this.physics.flick(10);
           showToast("Diya lit. May light chase the dark 🪔");
           break;
+        case "japa":
+          this.anim.japa = now;
+          this.physics.flick(8);
+          showToast("Om Namah Shivaya 📿");
+          break;
         case "vel":
           this.anim.vel = now;
           this.physics.flick(18);
@@ -456,6 +461,31 @@
         const k = (1 + 0.9 * Math.sin(t * Math.PI)).toFixed(3);
         set(flame, "transform", `scale(${k})`);
       }, () => clear(flame, "transform"));
+
+      const seeds = this.charmGroup.querySelectorAll(".ld-mala-bead");
+      if (seeds.length) {
+        const guru = this.q(".ld-mala-guru .ld-mala-glow");
+        const count = seeds.length;
+        const clearBeads = () => {
+          seeds.forEach((b) => {
+            b.querySelector(".ld-mala-glow").setAttribute("opacity", "0");
+            b.querySelector(".ld-mala-seed").removeAttribute("transform");
+          });
+          set(guru, "opacity", "0");
+        };
+        // One seed per 0.13s walks round the loop, then the guru bead lights up
+        this.runAnim("japa", count * 0.13 + 1.2, now, (e) => {
+          const pos = e / 0.13;
+          seeds.forEach((b, i) => {
+            const d = Math.abs(pos - i);
+            const lit = Math.max(0, 1 - d / 2.5);
+            b.querySelector(".ld-mala-glow").setAttribute("opacity", lit.toFixed(3));
+            b.querySelector(".ld-mala-seed").setAttribute("transform", `scale(${(1 + 0.35 * lit).toFixed(3)})`);
+          });
+          const done = Math.max(0, pos - count);
+          set(guru, "opacity", Math.min(done, 1) * (0.5 + 0.5 * Math.sin(done * 5)) );
+        }, clearBeads);
+      }
 
       const halo = this.q(".ld-vel-glow");
       this.runAnim("vel", 2.6, now, (_, t) => {
