@@ -522,6 +522,18 @@ body {
   gap: 8px;
 }
 
+.author-link {
+  color: var(--brand);
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.author-link:hover {
+  color: var(--brand-deep);
+  text-decoration: underline;
+}
+
 kbd {
   background: var(--paper);
   border: 1px solid var(--line);

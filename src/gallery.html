@@ -96,13 +96,19 @@
         <span>Shortcuts: <kbd>Ctrl+Shift+D</kbd> Show or hide · <kbd>Ctrl+Shift+S</kbd> Perform ritual</span>
       </div>
       <div class="footer-meta">
-        <span>Lucky Dangle · Windows · macOS · Linux</span>
+        <span>Made by <a id="author-link" class="author-link" href="#" target="_blank" rel="noopener"></a> · Lucky Dangle</span>
       </div>
     </footer>
   </div>
 
+  <script src="author.js"></script>
   <script src="charms.js"></script>
   <script>document.getElementById("charm-defs").innerHTML = getSvgDefs();</script>
+  <script>
+    const authorLink = document.getElementById("author-link");
+    authorLink.textContent = AUTHOR.name + " · DM me";
+    authorLink.href = AUTHOR.url;
+  </script>
   <script src="gallery.js"></script>
 </body>
 </html>

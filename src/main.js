@@ -1,6 +1,7 @@
 // main.js - Electron Main Process for Lucky Dangle
 
-const { app, BrowserWindow, Tray, Menu, ipcMain, screen, globalShortcut, nativeImage } = require('electron');
+const { app, BrowserWindow, Tray, Menu, ipcMain, screen, globalShortcut, nativeImage, shell } = require('electron');
+const { AUTHOR } = require('./author.js');
 const path = require('path');
 const fs = require('fs');
 
@@ -119,6 +120,14 @@ function createGalleryWindow() {
   });
 
   galleryWindow.setMenuBarVisibility(false);
+  // Links in the gallery open in the user's browser, not inside the app
+  galleryWindow.webContents.setWindowOpenHandler(({ url }) => {
+    if (/^https:\/\//.test(url)) shell.openExternal(url);
+    return { action: 'deny' };
+  });
+  galleryWindow.webContents.on('will-navigate', (e, url) => {
+    if (/^https:\/\//.test(url)) { e.preventDefault(); shell.openExternal(url); }
+  });
   galleryWindow.loadFile(path.join(__dirname, 'gallery.html'));
 
   galleryWindow.on('closed', () => {
@@ -164,6 +173,7 @@ function updateTrayMenu() {
     { label: 'Change Current Charm', submenu: changeSubmenu },
     { label: 'Charm Gallery…', click: () => createGalleryWindow() },
     { type: 'separator' },
+    { label: `Made by ${AUTHOR.name} · Say hi`, click: () => shell.openExternal(AUTHOR.url) },
     {
       label: 'Quit Lucky Dangle',
       click: () => {
