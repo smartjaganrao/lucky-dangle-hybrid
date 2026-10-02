@@ -28,6 +28,15 @@ contextBridge.exposeInMainWorld('electronAPI', {
   selectCharm: (slug, emoji, customImage, customImageAspect) => {
     ipcRenderer.send('select-charm', { slug, emoji, customImage, customImageAspect });
   },
+  addCharm: (slug, emoji, customImage, customImageAspect) => {
+    ipcRenderer.send('add-charm', { slug, emoji, customImage, customImageAspect });
+  },
+  onCharmAdded: (callback) => {
+    ipcRenderer.on('charm-added', (_event, data) => callback(data));
+  },
+  onSettingsUpdated: (callback) => {
+    ipcRenderer.on('settings-updated', (_event, data) => callback(data));
+  },
   triggerRitual: () => {
     ipcRenderer.send('trigger-ritual');
   },

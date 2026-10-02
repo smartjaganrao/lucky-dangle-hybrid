@@ -9,30 +9,16 @@
   <div id="dg-container">
     <svg id="dg-svg">
       <defs id="dg-defs"></defs>
-      <g id="dg-world">
-        <g id="dg-web-anchor" class="dg-web-anchor" style="display:none;">
-          <path d="M -22 -4 L 0 0 L 22 -4 M -14 -4 L 0 0 L 14 -4 M -7 -4 L 0 0 L 7 -4 M -16 -2 Q 0 -5 16 -2 M -9 -1 Q 0 -3 9 -1" stroke="rgba(255,255,255,0.95)" stroke-width="1.3" fill="none" stroke-linecap="round"/>
-          <circle cx="0" cy="0" r="2.4" fill="#ffffff"/>
-        </g>
-        <g id="dg-rope">
-          <path class="dg-cord-glow" d="" fill="none"/>
-          <path class="dg-cord-base" d="" fill="none"/>
-          <path class="dg-cord-texture" d="" fill="none"/>
-          <path class="dg-cord-stitch" d="" fill="none"/>
-          <path class="dg-cord-spiral" d="" fill="none"/>
-        </g>
-        <g id="dg-garland"></g>
-        <g id="dg-beads"></g>
-        <g id="dg-charm" class="dg-shadow"></g>
-      </g>
+      <!-- One <g class="dg-dangle"> per hanging charm is added here by overlay.js -->
+      <g id="dg-world"></g>
     </svg>
-    <div id="dg-anchor-handle" title="Drag to slide along screen edge"></div>
-    <button id="dg-close-anchor" class="dg-close-anchor" title="Exit Lucky Dangle">✕</button>
-    <button id="dg-grab" aria-label="Grab and flick lucky charm" title="Left click: flick / Right click: options"></button>
+    <!-- Each charm also adds its own grab zone, anchor handle and close button here -->
     <div id="dg-context-menu" class="dg-context-menu">
-      <div class="dg-cm-item" id="dg-cm-ritual"><span class="dg-cm-icon">✨</span> Perform Ritual <kbd>Ctrl+S</kbd></div>
-      <div class="dg-cm-item" id="dg-cm-gallery"><span class="dg-cm-icon">🎨</span> Charm Gallery...</div>
-      <div class="dg-cm-item" id="dg-cm-toggle"><span class="dg-cm-icon">🙈</span> Hide Charm <kbd>Ctrl+D</kbd></div>
+      <div class="dg-cm-item" id="dg-cm-ritual"><span class="dg-cm-icon">✨</span> Perform Ritual</div>
+      <div class="dg-cm-item" id="dg-cm-add"><span class="dg-cm-icon">➕</span> Hang Another</div>
+      <div class="dg-cm-item" id="dg-cm-gallery"><span class="dg-cm-icon">🎨</span> Charm Gallery…</div>
+      <div class="dg-cm-item" id="dg-cm-remove"><span class="dg-cm-icon">➖</span> Remove This Charm</div>
+      <div class="dg-cm-item" id="dg-cm-toggle"><span class="dg-cm-icon">🙈</span> Hide All <kbd>Ctrl+D</kbd></div>
       <div class="dg-cm-separator"></div>
       <div class="dg-cm-item dg-cm-danger" id="dg-cm-quit"><span class="dg-cm-icon">❌</span> Exit App Completely</div>
     </div>

@@ -501,3 +501,39 @@ kbd {
   font-size: 11px;
   color: #e9edf8;
 }
+
+/* Vector (SVG) charm art on gallery cards */
+.card-svg {
+  height: 110px;
+  width: auto;
+  max-width: 110px;
+  overflow: visible;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.45));
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.charm-card:hover .card-svg {
+  transform: scale(1.08) rotate(3deg);
+}
+.ld-flame {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: ld-flicker 1.3s ease-in-out infinite;
+}
+@keyframes ld-flicker {
+  0%, 100% { transform: scale(1, 1) skewX(0deg); }
+  25% { transform: scale(0.92, 1.08) skewX(-3deg); }
+  50% { transform: scale(1.04, 0.94) skewX(2deg); }
+  75% { transform: scale(0.95, 1.06) skewX(-1deg); }
+}
+.card-btn.add {
+  flex: 0 0 auto;
+}
+.card-count {
+  margin-left: 4px;
+  opacity: 0.8;
+  font-variant-numeric: tabular-nums;
+}
+.card-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

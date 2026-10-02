@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="gallery.css">
 </head>
 <body>
+  <!-- Shared gradients for vector charm art -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs id="charm-defs"></defs></svg>
   <div class="app-window">
     <header class="gallery-header">
       <div class="brand">
@@ -18,7 +20,7 @@
       </div>
       <div class="header-actions">
         <button id="btn-toggle-dangle" class="action-btn" title="Toggle charm on/off screen (Ctrl+D)">
-          <span class="btn-icon">🪟</span> <span id="toggle-label">Hide Charm</span>
+          <span class="btn-icon">🪟</span> <span id="toggle-label">Hide Charms</span>
         </button>
         <button id="btn-ritual-quick" class="action-btn primary" title="Perform charm ritual (Ctrl+S)">
           <span class="btn-icon">✨</span> Perform Ritual
@@ -32,7 +34,7 @@
     <main class="gallery-content">
       <section class="section-intro">
         <h2>Choose your charm</h2>
-        <p>Each one comes from a tradition around the world, with a small ritual of its own. Select a charm to hang it from the top of your screen.</p>
+        <p>Each one comes from a tradition around the world, with a small ritual of its own. <strong>Hang charm</strong> swaps your current charm; <strong>＋ Add</strong> hangs another beside it, up to eight at once.</p>
       </section>
 
       <!-- Emoji customizer bar -->
@@ -97,6 +99,7 @@
   </div>
 
   <script src="charms.js"></script>
+  <script>document.getElementById("charm-defs").innerHTML = getSvgDefs();</script>
   <script src="gallery.js"></script>
 </body>
 </html>

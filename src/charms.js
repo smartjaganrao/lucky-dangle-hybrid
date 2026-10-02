@@ -1,6 +1,98 @@
 // charms.js - Catalog, Beads, and Asset definitions for Lucky Dangle
 
+// ---------------------------------------------------------------------------
+// Original vector charms (art type "svg").
+// Local space: (0,0) is where the cord meets the charm, +y points down.
+// Shared gradients (ld-*) live in getSvgDefs().
+// ---------------------------------------------------------------------------
+
+const DIYA_SVG = `
+  <circle cx="0" cy="3" r="3" fill="none" stroke="url(#ld-brass)" stroke-width="1.6"/>
+  <path d="M0 6 L-19 33 M0 6 L0 31 M0 6 L19 33" stroke="url(#ld-brass)" stroke-width="1.1" stroke-dasharray="2.2 1.2" fill="none"/>
+  <path d="M22 33 Q30 31 31 26 L26 35 Z" fill="url(#ld-brass)"/>
+  <path d="M-26 34 Q-24 52 0 54 Q24 52 26 34 Z" fill="url(#ld-brass)"/>
+  <ellipse cx="0" cy="34" rx="26" ry="4" fill="#7a4a12"/>
+  <ellipse cx="0" cy="34" rx="22" ry="2.6" fill="#3a2208"/>
+  <path d="M-19 42 Q0 47 19 42" stroke="#fff3c4" stroke-opacity="0.45" fill="none" stroke-width="1"/>
+  <circle cx="-10" cy="46" r="1.3" fill="#fff3c4" fill-opacity="0.6"/>
+  <circle cx="0" cy="48" r="1.3" fill="#fff3c4" fill-opacity="0.6"/>
+  <circle cx="10" cy="46" r="1.3" fill="#fff3c4" fill-opacity="0.6"/>
+  <path d="M-4 54 L0 62 L4 54 Z" fill="url(#ld-brass)"/>
+  <g transform="translate(30 25)">
+    <g class="ld-flame-boost">
+      <circle class="ld-flame-glow" r="10" fill="url(#ld-flameglow)"/>
+      <g class="ld-flame">
+        <path d="M0 2 C-4 -2 -3 -8 0 -13 C3 -8 4 -2 0 2 Z" fill="#f07a1a"/>
+        <path d="M0 1.5 C-2 -1 -1.5 -5 0 -8 C1.5 -5 2 -1 0 1.5 Z" fill="#ffe08a"/>
+      </g>
+    </g>
+  </g>`;
+
+const VEL_SVG = `
+  <ellipse class="ld-vel-glow" cx="0" cy="28" rx="22" ry="30" fill="url(#ld-halo)" opacity="0"/>
+  <circle cx="0" cy="3" r="3" fill="none" stroke="url(#ld-gold)" stroke-width="1.6"/>
+  <path d="M0 6 C9 16 13 26 11 34 C9 41 4 45 0 47 C-4 45 -9 41 -11 34 C-13 26 -9 16 0 6 Z" fill="url(#ld-gold)" stroke="#8a5a0c" stroke-width="0.8"/>
+  <path d="M0 11 C6 19 8 27 7 33 C6 38 3 41 0 42 C-3 41 -6 38 -7 33 C-8 27 -6 19 0 11 Z" fill="none" stroke="#fff3c4" stroke-opacity="0.55" stroke-width="0.8"/>
+  <path d="M-6 26 H6 M-6.5 28.6 H6.5 M-6 31.2 H6" stroke="#fffaf0" stroke-width="1.1" stroke-linecap="round"/>
+  <circle cx="0" cy="28.6" r="1.7" fill="#c2203c"/>
+  <rect x="-5" y="47" width="10" height="4" rx="1.5" fill="url(#ld-gold)" stroke="#8a5a0c" stroke-width="0.5"/>
+  <circle cx="0" cy="54" r="3" fill="url(#dg-g-lacquerRed)"/>
+  <rect x="-1.6" y="57" width="3.2" height="24" rx="1.2" fill="url(#ld-gold)"/>
+  <path d="M-3 81 L3 81 L0 87 Z" fill="url(#ld-gold)"/>`;
+
+function marigoldSvg() {
+  const flower = (cy, petal, center, dot, r) => {
+    let petals = "";
+    for (let i = 0; i < 10; i++) {
+      const a = (i / 10) * Math.PI * 2;
+      petals += `<circle cx="${(Math.cos(a) * r * 0.72).toFixed(2)}" cy="${(cy + Math.sin(a) * r * 0.72).toFixed(2)}" r="${(r * 0.42).toFixed(2)}" fill="${petal}"/>`;
+    }
+    return `${petals}<circle cy="${cy}" r="${(r * 0.6).toFixed(2)}" fill="${center}"/><circle cy="${cy}" r="${(r * 0.22).toFixed(2)}" fill="${dot}"/>`;
+  };
+  let out = `<path d="M0 0 V84" stroke="#3f7d2c" stroke-width="1"/>`;
+  [8, 21, 34, 47, 60, 73].forEach((cy, i) => {
+    out += i % 2 === 0
+      ? flower(cy, "#e8661a", "#f07a1a", "#a8400c", 7)
+      : flower(cy, "#f2b134", "#f7c64e", "#c4820c", 6.4);
+  });
+  out += `<path d="M0 80 C-8 88 -7 98 0 104 C7 98 8 88 0 80 Z" fill="#3f7d2c"/><path d="M0 82 V102" stroke="#2a5a1c" stroke-width="0.9"/>`;
+  return out;
+}
+
 const CHARMS = [
+  {
+    slug: "diya",
+    name: "Thooku vilakku",
+    origin: "Tamil Nadu, India",
+    description: "A brass hanging lamp, lit at dusk so the home is never in darkness. Light the diya when you start something new.",
+    ritual: { kind: "diya", label: "Light the diya" },
+    art: { type: "svg", markup: DIYA_SVG, frame: [64, 64], viewBox: "-32 -2 68 66" },
+    attach: 0,
+    hangOffset: 32,
+    beads: { small: "glass:gold", big: "glass:lacquerRed", raise: 0, bigSize: 12 }
+  },
+  {
+    slug: "vel",
+    name: "Vel",
+    origin: "Tamil Nadu, India",
+    description: "Lord Murugan's leaf-bladed spear, a sign of courage and clear sight. Raise the vel when you need strength for the day.",
+    ritual: { kind: "vel", label: "Raise the vel" },
+    art: { type: "svg", markup: VEL_SVG, frame: [30, 88], viewBox: "-24 -2 48 92" },
+    attach: 0,
+    hangOffset: 40,
+    beads: { small: "glass:gold", big: "glass:lacquerRed", raise: 0, bigSize: 12 }
+  },
+  {
+    slug: "marigold",
+    name: "Genda phool",
+    origin: "India",
+    description: "A string of marigolds with a mango leaf, hung over doorways for every festival. Give it a flick to shake out the old week.",
+    ritual: { kind: "flick", label: "Give it a flick" },
+    art: { type: "svg", markup: marigoldSvg(), frame: [20, 104], viewBox: "-12 -2 24 108" },
+    attach: 0,
+    hangOffset: 50,
+    beads: null
+  },
   {
     slug: "nazar",
     name: "Nazar boncuğu",
@@ -136,30 +228,6 @@ const CHARMS = [
     art: { type: "image", src: "../assets/charms/himmeli.png", frame: [64, 84] },
     attach: 0.05,
     hangOffset: 37.8,
-    beads: null
-  },
-  {
-    slug: "spiderman",
-    name: "Spider-Man Upside Down",
-    origin: "Marvel Universe",
-    description: "Your friendly neighborhood web-slinger hanging upside down by his web. Give him a flick to swing into action.",
-    ritual: { kind: "spiderman", label: "Swing into action" },
-    art: { type: "image", src: "../assets/charms/spiderman-classic.png", frame: [68, 106] },
-    cord: "web",
-    attach: 0.005,
-    hangOffset: 28,
-    beads: null
-  },
-  {
-    slug: "spiderman-gwen",
-    name: "Spider-Man & Gwen",
-    origin: "Marvel Universe",
-    description: "Spider-Man holding his webline with Gwen Stacy. Give him a flick to swing with superhero agility.",
-    ritual: { kind: "spiderman", label: "Swing webline" },
-    art: { type: "image", src: "../assets/charms/spiderman-gwen.png", frame: [48, 179] },
-    cord: "web",
-    attach: 0.005,
-    hangOffset: 28,
     beads: null
   },
   {
@@ -299,6 +367,27 @@ function getSvgDefs() {
       <stop offset="100%" stop-color="#26262e"/>
     </linearGradient>
 
+    <!-- Vector charm materials -->
+    <linearGradient id="ld-brass" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f5d27a"/>
+      <stop offset="50%" stop-color="#c8902a"/>
+      <stop offset="100%" stop-color="#7a4a12"/>
+    </linearGradient>
+    <linearGradient id="ld-gold" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#a87515"/>
+      <stop offset="45%" stop-color="#fff0a8"/>
+      <stop offset="60%" stop-color="#e8b33a"/>
+      <stop offset="100%" stop-color="#8a5a0c"/>
+    </linearGradient>
+    <radialGradient id="ld-flameglow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="rgba(255,200,90,0.75)"/>
+      <stop offset="100%" stop-color="rgba(255,160,40,0)"/>
+    </radialGradient>
+    <radialGradient id="ld-halo" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="rgba(255,230,130,0.95)"/>
+      <stop offset="100%" stop-color="rgba(255,200,60,0)"/>
+    </radialGradient>
+
     <filter id="dg-tipshadow" x="-50%" y="-50%" width="200%" height="200%">
       <feDropShadow dx="0" dy="1" stdDeviation="0.6" flood-color="rgba(0,0,0,0.3)"/>
     </filter>
@@ -351,25 +440,6 @@ function renderBead(beadType, radius, emojiGlyph = "🍀") {
   }
   if (beadType === "emojiTwin") {
     return `<text text-anchor="middle" dominant-baseline="central" font-size="${radius * 1.8}">${emojiGlyph}</text>`;
-  }
-  if (beadType === "spider") {
-    const r = radius;
-    return `
-      <circle r="${r}" fill="url(#dg-g-lacquerRed)"/>
-      <circle r="${r}" fill="url(#dg-rim-lacquerRed)"/>
-      <ellipse cx="0" cy="0.4" rx="${(r * 0.22).toFixed(2)}" ry="${(r * 0.38).toFixed(2)}" fill="#111116"/>
-      <circle cx="0" cy="${(-r * 0.36).toFixed(2)}" r="${(r * 0.18).toFixed(2)}" fill="#111116"/>
-      <path d="M ${(-r * 0.18).toFixed(2)} ${(-r * 0.1).toFixed(2)} Q ${(-r * 0.55).toFixed(2)} ${(-r * 0.5).toFixed(2)} ${(-r * 0.72).toFixed(2)} ${(-r * 0.2).toFixed(2)}
-               M ${(-r * 0.18).toFixed(2)} 0 Q ${(-r * 0.65).toFixed(2)} ${(-r * 0.2).toFixed(2)} ${(-r * 0.78).toFixed(2)} ${(r * 0.1).toFixed(2)}
-               M ${(-r * 0.18).toFixed(2)} ${(r * 0.2).toFixed(2)} Q ${(-r * 0.65).toFixed(2)} ${(r * 0.35).toFixed(2)} ${(-r * 0.72).toFixed(2)} ${(r * 0.55).toFixed(2)}
-               M ${(-r * 0.14).toFixed(2)} ${(r * 0.35).toFixed(2)} Q ${(-r * 0.45).toFixed(2)} ${(r * 0.65).toFixed(2)} ${(-r * 0.52).toFixed(2)} ${(r * 0.78).toFixed(2)}
-               M ${(r * 0.18).toFixed(2)} ${(-r * 0.1).toFixed(2)} Q ${(r * 0.55).toFixed(2)} ${(-r * 0.5).toFixed(2)} ${(r * 0.72).toFixed(2)} ${(-r * 0.2).toFixed(2)}
-               M ${(r * 0.18).toFixed(2)} 0 Q ${(r * 0.65).toFixed(2)} ${(-r * 0.2).toFixed(2)} ${(r * 0.78).toFixed(2)} ${(r * 0.1).toFixed(2)}
-               M ${(r * 0.18).toFixed(2)} ${(r * 0.2).toFixed(2)} Q ${(r * 0.65).toFixed(2)} ${(r * 0.35).toFixed(2)} ${(r * 0.72).toFixed(2)} ${(r * 0.55).toFixed(2)}
-               M ${(r * 0.14).toFixed(2)} ${(r * 0.35).toFixed(2)} Q ${(r * 0.45).toFixed(2)} ${(r * 0.65).toFixed(2)} ${(r * 0.52).toFixed(2)} ${(r * 0.78).toFixed(2)}"
-            stroke="#111116" stroke-width="${Math.max(1, (r * 0.12)).toFixed(2)}" stroke-linecap="round" fill="none"/>
-      <ellipse cx="${(-r * 0.34).toFixed(2)}" cy="${(-r * 0.46).toFixed(2)}" rx="${(r * 0.25).toFixed(2)}" ry="${(r * 0.18).toFixed(2)}" fill="rgba(255,255,255,0.7)"/>
-    `;
   }
   return "";
 }

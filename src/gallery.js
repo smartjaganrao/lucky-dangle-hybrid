@@ -14,7 +14,9 @@
   const customImgThumb = document.getElementById("custom-img-thumb");
   const customImgIcon = document.getElementById("custom-img-icon");
 
-  let activeSlug = "nazar";
+  let activeSlug = "diya";
+  let hangingCounts = {}; // slug -> how many of that charm are on screen
+  let hangingTotal = 1;
   let activeEmoji = "🍀";
   let activeCustomImage = "";
   let activeCustomImageAspect = 1.0;
@@ -22,10 +24,14 @@
 
   function renderGrid() {
     gridEl.innerHTML = CHARMS.map((c) => {
-      const isActive = c.slug === activeSlug;
+      const count = hangingCounts[c.slug] || 0;
+      const isActive = count > 0;
+      const isCurrent = c.slug === activeSlug;
       let artContent = "";
 
-      if (c.slug === "custom") {
+      if (c.art.type === "svg") {
+        artContent = `<svg class="card-svg" viewBox="${c.art.viewBox}" aria-label="${c.name}">${c.art.markup}</svg>`;
+      } else if (c.slug === "custom") {
         artContent = `<div class="card-emoji-art">${activeEmoji}</div>`;
       } else if (c.slug === "custom-image") {
         artContent = activeCustomImage
@@ -41,7 +47,7 @@
 
       return `
         <article class="charm-card ${isActive ? "active" : ""}" data-slug="${c.slug}">
-          ${isActive ? '<span class="active-badge">Hanging</span>' : ""}
+          ${isActive ? `<span class="active-badge">Hanging${count > 1 ? ` ×${count}` : ""}</span>` : ""}
           <div class="card-art">
             ${artContent}
           </div>
@@ -53,13 +59,15 @@
               <button class="card-btn upload-image" data-slug="${c.slug}" title="Choose image from your computer">
                 📁 ${activeCustomImage ? "Change Image" : "Upload Image"}
               </button>
-              <button class="card-btn hang" data-slug="${c.slug}">
-                ${isActive ? "✓ Hanging" : "Hang charm"}
+              <button class="card-btn hang" data-slug="${c.slug}" title="Replace the current charm with this one">
+                ${isCurrent ? "✓ Current" : "Hang charm"}
               </button>
+              <button class="card-btn add" data-slug="${c.slug}" title="Hang this as an extra charm" ${hangingTotal >= 8 ? "disabled" : ""}>＋ Add</button>
             ` : `
-              <button class="card-btn hang" data-slug="${c.slug}">
-                ${isActive ? "✓ Hanging" : "Hang charm"}
+              <button class="card-btn hang" data-slug="${c.slug}" title="Replace the current charm with this one">
+                ${isCurrent ? "✓ Current" : "Hang charm"}
               </button>
+              <button class="card-btn add" data-slug="${c.slug}" title="Hang this as an extra charm" ${hangingTotal >= 8 ? "disabled" : ""}>＋ Add</button>
               <button class="card-btn ritual" data-slug="${c.slug}">
                 ${c.ritual.label}
               </button>
@@ -93,6 +101,19 @@
           return;
         }
         selectCharm(slug);
+      });
+    });
+
+    gridEl.querySelectorAll(".card-btn.add").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const slug = btn.dataset.slug;
+        if (slug === "custom-image" && !activeCustomImage) {
+          if (fileInput) fileInput.click();
+          return;
+        }
+        if (window.electronAPI) {
+          window.electronAPI.addCharm(slug, activeEmoji, activeCustomImage, activeCustomImageAspect);
+        }
       });
     });
 
@@ -187,7 +208,7 @@
   // Top header actions
   btnToggleDangle.addEventListener("click", () => {
     isDangled = !isDangled;
-    toggleLabel.textContent = isDangled ? "Hide Charm" : "Dangle Charm";
+    toggleLabel.textContent = isDangled ? "Hide Charms" : "Dangle Charms";
     if (window.electronAPI) {
       window.electronAPI.toggleDangle();
     }
@@ -210,9 +231,25 @@
     });
   }
 
+  function applyHanging(settings) {
+    hangingCounts = {};
+    const list = Array.isArray(settings && settings.dangles) && settings.dangles.length
+      ? settings.dangles
+      : [{ slug: (settings && settings.slug) || activeSlug }];
+    list.forEach((d) => { hangingCounts[d.slug] = (hangingCounts[d.slug] || 0) + 1; });
+    hangingTotal = list.length;
+  }
+
   // Sync settings on load
   if (window.electronAPI) {
+    window.electronAPI.onSettingsUpdated((settings) => {
+      if (settings.slug) activeSlug = settings.slug;
+      applyHanging(settings);
+      renderGrid();
+    });
+
     window.electronAPI.getSettings().then((settings) => {
+      applyHanging(settings);
       if (settings) {
         if (settings.slug) activeSlug = settings.slug;
         if (settings.emoji) {

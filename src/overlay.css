@@ -57,67 +57,21 @@ html, body {
   stroke-dasharray: 2 6 1.5 8;
 }
 
-/* Spider Web Cord Rendering */
-.dg-web-anchor path {
-  filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 6px rgba(180, 220, 255, 0.6));
-}
-
-#dg-rope.dg-cord-web .dg-cord-glow {
-  display: block;
-  stroke: rgba(255, 255, 255, 0.4);
-  stroke-width: 4.2px;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 8px rgba(160, 215, 255, 0.65));
-}
-
-#dg-rope.dg-cord-web .dg-cord-base {
-  stroke: #ffffff;
-  stroke-width: 2.2px;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-#dg-rope.dg-cord-web .dg-cord-texture {
-  stroke: #f2f7ff;
-  stroke-width: 1.3px;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-dasharray: 8 2 14 3;
-}
-
-#dg-rope.dg-cord-web .dg-cord-stitch {
-  stroke: rgba(215, 235, 255, 0.9);
-  stroke-width: 0.8px;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-dasharray: 3 6 4 8;
-}
-
-#dg-rope.dg-cord-web .dg-cord-spiral {
-  display: block;
-  stroke: rgba(255, 255, 255, 0.75);
-  stroke-width: 0.7px;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-dasharray: 2 5 1 6;
-}
-
 /* Drop shadows */
-.dg-shadow, #dg-charm {
+.dg-shadow, .dg-charm {
   filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.4));
 }
 
-#dg-beads .dg-bead {
+.dg-beads .dg-bead {
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
-#dg-garland .dg-slot {
+.dg-garland .dg-slot {
   filter: drop-shadow(0 5px 8px rgba(0, 0, 0, 0.35));
 }
 
 /* Grab button (interactive hit zone) */
-#dg-grab {
+.dg-grab {
   position: absolute;
   top: 0;
   left: 0;
@@ -134,12 +88,12 @@ html, body {
   transform: translate(-999px, -999px);
 }
 
-#dg-grab:active {
+.dg-grab:active {
   cursor: grabbing;
 }
 
 /* Top anchor handle for easy sliding */
-#dg-anchor-handle {
+.dg-anchor-handle {
   position: absolute;
   top: 0;
   width: 50px;
@@ -154,7 +108,7 @@ html, body {
   align-items: flex-start;
 }
 
-#dg-anchor-handle::after {
+.dg-anchor-handle::after {
   content: '';
   width: 28px;
   height: 4px;
@@ -164,12 +118,7 @@ html, body {
   transition: background 0.2s, height 0.2s;
 }
 
-.is-web #dg-anchor-handle::after {
-  background: rgba(255, 255, 255, 0.85);
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.9), 0 1px 4px rgba(0, 0, 0, 0.4);
-}
-
-#dg-anchor-handle:hover::after {
+.dg-anchor-handle:hover::after {
   background: rgba(255, 215, 0, 0.85);
   height: 5px;
 }
@@ -294,4 +243,27 @@ html, body {
 .dg-cm-danger:hover {
   background: rgba(239, 68, 68, 0.25) !important;
   color: #ffffff !important;
+}
+
+/* Vector charm details */
+.ld-flame {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: ld-flicker 1.3s ease-in-out infinite;
+}
+.ld-flame-glow {
+  animation: ld-glow 1.3s ease-in-out infinite;
+}
+@keyframes ld-flicker {
+  0%, 100% { transform: scale(1, 1) skewX(0deg); }
+  25% { transform: scale(0.92, 1.08) skewX(-3deg); }
+  50% { transform: scale(1.04, 0.94) skewX(2deg); }
+  75% { transform: scale(0.95, 1.06) skewX(-1deg); }
+}
+@keyframes ld-glow {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ld-flame, .ld-flame-glow { animation: none; }
 }

@@ -38,7 +38,7 @@ function loadSettings() {
     console.error('Error loading settings:', e);
   }
   return {
-    slug: 'nazar',
+    slug: 'diya',
     emoji: '🍀',
     anchorXRatio: 0.75,
     darumaState: 0,
@@ -127,76 +127,59 @@ function createGalleryWindow() {
 }
 
 // Create the system tray (Windows/Linux) or menu-bar icon (macOS)
+const { CHARMS } = require('./charms.js');
+
+function sendToOverlay(channel, data) {
+  if (overlayWindow && !overlayWindow.isDestroyed()) overlayWindow.webContents.send(channel, data);
+}
+
+function updateTrayMenu() {
+  if (!tray) return;
+  const settings = loadSettings();
+  const hanging = Array.isArray(settings.dangles) ? settings.dangles.length : 1;
+  const emoji = settings.emoji || '🍀';
+  const labelFor = (c) => (c.slug === 'custom' ? `Emoji (${emoji})` : `${c.name} · ${c.origin}`);
+  const pickable = CHARMS.filter((c) => c.slug !== 'custom-image');
+
+  const changeSubmenu = pickable.map((c) => ({
+    label: labelFor(c),
+    type: 'radio',
+    checked: c.slug === settings.slug,
+    click: () => sendToOverlay('charm-changed', { slug: c.slug, emoji })
+  }));
+
+  const addSubmenu = pickable.map((c) => ({
+    label: labelFor(c),
+    enabled: hanging < 8,
+    click: () => sendToOverlay('charm-added', { slug: c.slug, emoji })
+  }));
+
+  tray.setContextMenu(Menu.buildFromTemplate([
+    { label: `✨ Lucky Dangle · ${hanging} hanging`, enabled: false },
+    { type: 'separator' },
+    { label: `Dangle / Hide All (${MOD_LABEL}+Shift+D)`, click: () => sendToOverlay('toggle-dangle-event') },
+    { label: `Perform Rituals (${MOD_LABEL}+Shift+S)`, click: () => sendToOverlay('perform-ritual-event') },
+    { type: 'separator' },
+    { label: 'Hang Another Charm', submenu: addSubmenu },
+    { label: 'Change Current Charm', submenu: changeSubmenu },
+    { label: 'Charm Gallery & Settings…', click: () => createGalleryWindow() },
+    { type: 'separator' },
+    {
+      label: 'Quit',
+      click: () => {
+        app.isQuitting = true;
+        app.quit();
+      }
+    }
+  ]));
+}
+
 function createTray() {
   const iconPath = path.join(__dirname, '..', 'assets', 'favicon-32x32.png');
   let icon = nativeImage.createFromPath(iconPath);
   if (isMac) icon = icon.resize({ width: 18, height: 18 }); // menu-bar size
   tray = new Tray(icon);
   tray.setToolTip('Lucky Dangle - Screen Charm');
-
-  const { CHARMS } = require('./charms.js');
-
-  function updateTrayMenu() {
-    const currentSettings = loadSettings();
-
-    const charmSubmenu = CHARMS.map((c) => ({
-      label: c.slug === 'custom' ? `Custom Emoji (${currentSettings.emoji || '🍀'})` : `${c.name} (${c.origin})`,
-      type: 'radio',
-      checked: c.slug === currentSettings.slug,
-      click: () => {
-        saveSettings({ slug: c.slug });
-        if (overlayWindow) {
-          overlayWindow.webContents.send('charm-changed', {
-            slug: c.slug,
-            emoji: currentSettings.emoji || '🍀'
-          });
-        }
-        if (galleryWindow) {
-          galleryWindow.webContents.send('charm-changed', {
-            slug: c.slug,
-            emoji: currentSettings.emoji || '🍀'
-          });
-        }
-        updateTrayMenu();
-      }
-    }));
-
-    const contextMenu = Menu.buildFromTemplate([
-      { label: '✨ Lucky Dangle', enabled: false },
-      { type: 'separator' },
-      {
-        label: `Dangle / Hide (${MOD_LABEL}+Shift+D)`,
-        click: () => {
-          if (overlayWindow) overlayWindow.webContents.send('toggle-dangle-event');
-        }
-      },
-      {
-        label: `Perform Ritual (${MOD_LABEL}+Shift+S)`,
-        click: () => {
-          if (overlayWindow) overlayWindow.webContents.send('perform-ritual-event');
-        }
-      },
-      { type: 'separator' },
-      {
-        label: 'Choose Charm',
-        submenu: charmSubmenu
-      },
-      {
-        label: 'Charm Gallery & Settings...',
-        click: () => createGalleryWindow()
-      },
-      { type: 'separator' },
-      {
-        label: 'Quit',
-        click: () => {
-          app.isQuitting = true;
-          app.quit();
-        }
-      }
-    ]);
-    tray.setContextMenu(contextMenu);
-  }
-
   updateTrayMenu();
 
   tray.on('double-click', () => {
@@ -242,6 +225,12 @@ ipcMain.on('select-charm', (_event, data) => {
   }
 });
 
+ipcMain.on('add-charm', (_event, data) => {
+  if (overlayWindow) {
+    overlayWindow.webContents.send('charm-added', data);
+  }
+});
+
 ipcMain.on('trigger-ritual', () => {
   if (overlayWindow) {
     overlayWindow.webContents.send('perform-ritual-event');
@@ -259,7 +248,13 @@ ipcMain.handle('get-settings', () => {
 });
 
 ipcMain.handle('save-settings', (_event, data) => {
-  return saveSettings(data);
+  const updated = saveSettings(data);
+  // Keep the gallery's "Hanging" badges in step with the overlay
+  if (updated && galleryWindow && !galleryWindow.isDestroyed()) {
+    galleryWindow.webContents.send('settings-updated', updated);
+  }
+  if (updated && data.dangles) updateTrayMenu();
+  return updated;
 });
 
 ipcMain.on('quit-app', () => {
