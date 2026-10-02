@@ -1,12 +1,15 @@
 {
   "name": "lucky-dangle",
   "version": "1.0.0",
-  "description": "Lucky Dangle - A lucky charm for your screen on Windows",
+  "description": "Lucky Dangle - a lucky charm for your screen on Windows, macOS and Linux",
   "main": "src/main.js",
   "scripts": {
     "start": "electron .",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder --win portable"
+    "dist": "electron-builder",
+    "dist:win": "electron-builder --win",
+    "dist:mac": "electron-builder --mac",
+    "dist:linux": "electron-builder --linux"
   },
   "keywords": [
     "lucky-dangle",
@@ -26,12 +29,15 @@
     "appId": "com.luckydangle.app",
     "productName": "Lucky Dangle",
     "win": {
-      "target": "dir",
+      "target": [
+        "portable",
+        "nsis"
+      ],
       "icon": "assets/app-icon.png",
       "signAndEditExecutable": false
     },
     "portable": {
-      "artifactName": "LuckyDangle.exe"
+      "artifactName": "LuckyDangle-${version}-portable.exe"
     },
     "directories": {
       "output": "dist"
@@ -40,6 +46,41 @@
       "src/**/*",
       "assets/**/*",
       "package.json"
-    ]
+    ],
+    "nsis": {
+      "artifactName": "LuckyDangle-${version}-setup.exe",
+      "oneClick": true
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "arm64",
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/app-icon.png",
+      "category": "public.app-category.lifestyle",
+      "extendInfo": {
+        "LSUIElement": true
+      }
+    },
+    "dmg": {
+      "artifactName": "LuckyDangle-${version}-${arch}.dmg"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "icon": "assets/app-icon.png",
+      "category": "Utility",
+      "maintainer": "Jagan"
+    },
+    "appImage": {
+      "artifactName": "LuckyDangle-${version}.AppImage"
+    }
   }
 }

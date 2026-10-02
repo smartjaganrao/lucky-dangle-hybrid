@@ -1,7 +1,18 @@
 // preload.js - Secure Electron Context Bridge
 const { contextBridge, ipcRenderer } = require('electron');
 
+const isMac = process.platform === 'darwin';
+const MOD = isMac ? '⌘' : 'Ctrl';
+
+// Rewrite shortcut labels in the UI to match the current OS (⌘ on Mac, Ctrl elsewhere)
+window.addEventListener('DOMContentLoaded', () => {
+  const swap = (s) => s.replace(/Ctrl\+(Shift\+)?/g, `${MOD}+Shift+`);
+  document.querySelectorAll('kbd').forEach((k) => { k.textContent = swap(k.textContent); });
+  document.querySelectorAll('[title]').forEach((el) => { el.title = swap(el.title); });
+});
+
 contextBridge.exposeInMainWorld('electronAPI', {
+  platform: process.platform,
   setIgnoreMouseEvents: (ignore, options) => {
     ipcRenderer.send('set-ignore-mouse-events', ignore, options);
   },

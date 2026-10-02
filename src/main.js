@@ -1,8 +1,22 @@
 // main.js - Electron Main Process for Lucky Dangle
 
-const { app, BrowserWindow, Tray, Menu, ipcMain, screen, globalShortcut } = require('electron');
+const { app, BrowserWindow, Tray, Menu, ipcMain, screen, globalShortcut, nativeImage } = require('electron');
 const path = require('path');
 const fs = require('fs');
+
+const isMac = process.platform === 'darwin';
+const isLinux = process.platform === 'linux';
+
+// Linux compositors need these for transparent, click-through windows
+if (isLinux) {
+  app.commandLine.appendSwitch('enable-transparent-visuals');
+  app.disableHardwareAcceleration();
+}
+
+// Shortcuts use Shift so we don't steal Save (Ctrl/⌘+S) and Bookmark (Ctrl/⌘+D) from every other app
+const SHORTCUT_TOGGLE = 'CommandOrControl+Shift+D';
+const SHORTCUT_RITUAL = 'CommandOrControl+Shift+S';
+const MOD_LABEL = isMac ? '⌘' : 'Ctrl';
 
 let overlayWindow = null;
 let galleryWindow = null;
@@ -48,10 +62,12 @@ function saveSettings(data) {
 function createOverlayWindow() {
   const primaryDisplay = screen.getPrimaryDisplay();
   const { width, height } = primaryDisplay.bounds;
+  // On macOS hang below the menu bar / notch; workArea.y is 0 on Windows and most Linux setups
+  const topY = isMac ? primaryDisplay.workArea.y : primaryDisplay.bounds.y;
 
   overlayWindow = new BrowserWindow({
-    x: 0,
-    y: 0,
+    x: primaryDisplay.bounds.x,
+    y: topY,
     width: width,
     height: Math.min(height, 760), // Screen zone where charms hang and swing
     transparent: true,
@@ -110,10 +126,12 @@ function createGalleryWindow() {
   });
 }
 
-// Create Windows Taskbar System Tray
+// Create the system tray (Windows/Linux) or menu-bar icon (macOS)
 function createTray() {
   const iconPath = path.join(__dirname, '..', 'assets', 'favicon-32x32.png');
-  tray = new Tray(iconPath);
+  let icon = nativeImage.createFromPath(iconPath);
+  if (isMac) icon = icon.resize({ width: 18, height: 18 }); // menu-bar size
+  tray = new Tray(icon);
   tray.setToolTip('Lucky Dangle - Screen Charm');
 
   const { CHARMS } = require('./charms.js');
@@ -147,13 +165,13 @@ function createTray() {
       { label: '✨ Lucky Dangle', enabled: false },
       { type: 'separator' },
       {
-        label: 'Dangle / Hide (Ctrl+D)',
+        label: `Dangle / Hide (${MOD_LABEL}+Shift+D)`,
         click: () => {
           if (overlayWindow) overlayWindow.webContents.send('toggle-dangle-event');
         }
       },
       {
-        label: 'Perform Ritual (Ctrl+S)',
+        label: `Perform Ritual (${MOD_LABEL}+Shift+S)`,
         click: () => {
           if (overlayWindow) overlayWindow.webContents.send('perform-ritual-event');
         }
@@ -188,13 +206,13 @@ function createTray() {
 
 // Register Global System Hotkeys
 function registerHotkeys() {
-  globalShortcut.register('CommandOrControl+D', () => {
+  globalShortcut.register(SHORTCUT_TOGGLE, () => {
     if (overlayWindow) {
       overlayWindow.webContents.send('toggle-dangle-event');
     }
   });
 
-  globalShortcut.register('CommandOrControl+S', () => {
+  globalShortcut.register(SHORTCUT_RITUAL, () => {
     if (overlayWindow) {
       overlayWindow.webContents.send('perform-ritual-event');
     }
@@ -251,16 +269,23 @@ ipcMain.on('quit-app', () => {
 
 // App Lifecycle
 app.whenReady().then(() => {
-  createOverlayWindow();
-  createTray();
-  registerHotkeys();
-  // Open gallery window on first launch so user can choose their charm!
-  createGalleryWindow();
+  // macOS: live in the menu bar only, no Dock icon
+  if (isMac && app.dock) app.dock.hide();
+
+  // Linux needs a short delay before transparent windows render correctly
+  const start = () => {
+    createOverlayWindow();
+    createTray();
+    registerHotkeys();
+    // Open gallery window on first launch so user can choose their charm!
+    createGalleryWindow();
+  };
+  isLinux ? setTimeout(start, 300) : start();
 
   app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) {
-      createOverlayWindow();
-    }
+    // macOS: clicking the app again re-opens the gallery
+    if (!overlayWindow) createOverlayWindow();
+    createGalleryWindow();
   });
 });
 
@@ -269,5 +294,5 @@ app.on('will-quit', () => {
 });
 
 app.on('window-all-closed', () => {
-  // On Windows, keep running in the tray even when gallery window is closed
+  // On every OS, keep running in the tray / menu bar when the gallery window is closed
 });
