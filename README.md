@@ -1,120 +1,110 @@
-# Lucky Dangle (hybrid)
+# 🪔 Lucky Dangle
 
-A lucky charm that dangles from the top of your screen. It sways while you work, lets every click pass through to the apps underneath, and performs a small ritual when you ask.
+**A lucky charm that hangs from the top of your screen while you work.**
 
-Runs on **macOS, Windows and Linux**. Built with Electron and plain JavaScript.
+A brass diya sways in the corner. Double-click it and the flame flares. Chant a round on a rudraksha mala. Ring a temple bell before a big meeting. Everything else on your screen stays clickable, because the charm never gets in the way.
 
-> **Status:** work in progress. The product name and some of the charm art are placeholders and will change before any release. See [Credit and status](#credit-and-status).
+Built with Electron and plain JavaScript. Runs on macOS, Windows and Linux.
+
+> Work in progress. The name and some of the art are placeholders. See [Credit and status](#credit-and-status).
 
 ---
 
-## Quick start
+## Try it
 
 ```bash
+git clone https://github.com/smartjaganrao/lucky-dangle-hybrid.git
+cd lucky-dangle-hybrid
 npm install
 npm start
 ```
 
-On macOS or Linux you can also run `./start.sh`. On Windows, double-click `run-dangle.bat`.
+The app lives in your **menu bar** (macOS) or **system tray** (Windows, Linux). It has no Dock icon. Click the tray icon to open the gallery, switch charms or quit.
 
-Lucky Dangle lives in the **menu bar** (macOS) or **system tray** (Windows, Linux). It has no Dock icon. Use the tray icon to open the gallery or quit.
-
----
-
-## Features
-
-- **Transparent overlay.** The charm hangs from the top edge of the screen with no window, border or shadow. Everything outside the charm is click-through.
-- **Rope physics.** Verlet-rope pendulum with a light ambient breeze. Click to flick, drag to swing it with the cursor.
-- **Slide along the edge.** Drag the small bar near the top to move the anchor anywhere along the screen edge.
-- **Several charms at once.** Hang up to 8 at the same time, each with its own rope and anchor.
-- **Charm gallery.** Each charm has its origin, a short story and its ritual. One click hangs it.
-- **Tray / menu-bar menu.** Switch or add charms, trigger rituals, show or hide everything.
-- **Global shortcuts.**
-
-  | Action | macOS | Windows / Linux |
-  | --- | --- | --- |
-  | Show or hide the charms | <kbd>⌘</kbd> <kbd>Shift</kbd> <kbd>D</kbd> | <kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>D</kbd> |
-  | Perform the ritual | <kbd>⌘</kbd> <kbd>Shift</kbd> <kbd>S</kbd> | <kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>S</kbd> |
-
-  Shift is part of both shortcuts on purpose, so they never take over Save or Bookmark.
+Shortcuts: `./start.sh` on macOS and Linux, `run-dangle.bat` on Windows.
 
 ---
 
-## Charms
+## What it does
 
-**Original Indian charms**
+- **Hangs from the screen edge.** No window, border or shadow. Only the charm is solid; clicks everywhere else go straight through to your apps.
+- **Moves like a real charm.** Rope physics with a gentle breeze. Flick it, drag it, watch it settle.
+- **Slides along the edge.** Drag the bar at the top to put the anchor wherever you like.
+- **Up to 8 at once.** Each charm gets its own rope and anchor.
+- **Every charm has a ritual.** Double-click, press the shortcut, or use the tray menu.
+- **Gallery.** Each charm comes with its origin and a short story.
 
-| Charm | Ritual |
-| --- | --- |
-| **Diya** (Thooku vilakku), a brass hanging lamp | The flame flares up |
-| **Vel**, Murugan's leaf-bladed spear | The spear glows |
-| **Rudraksha mala**, 27 seeds, a guru bead and a tassel | Chant a round: the seeds light up one by one, then the guru bead |
-| **Marigold toran** (Genda phool), a string of marigolds | Flick |
+### Shortcuts
 
-**Traditional charms**
-
-| Charm | Origin | Ritual |
+| Action | macOS | Windows / Linux |
 | --- | --- | --- |
-| Nazar boncuğu | Turkey, Mediterranean | Flick |
-| Hamsa | Middle East, North Africa | Flick |
-| Nimbu-mirchi | India | Hang a fresh garland |
-| Ghanta | India | Ring the bell |
-| Drishti bommai | South India | Repaints through seven colours |
-| Chinese knot | China | The cord cinches and settles |
-| Daruma | Japan | Paint one eye for a goal, the other when it is met |
-| Maneki-neko | Japan | Beckoning paw |
-| Horseshoe | Europe, Americas | Flick |
-| Scarab | Ancient Egypt | Ceremonial wings open |
-| Himmeli | Finland | Turns in the draft |
+| Show or hide the charms | `⌘` `Shift` `D` | `Ctrl` `Shift` `D` |
+| Perform the ritual | `⌘` `Shift` `S` | `Ctrl` `Shift` `S` |
 
-**Make your own:** hang any emoji, or load your own image.
+Both include Shift on purpose, so they never take over Save or Bookmark.
 
 ---
 
-## Project layout
+## The charms
 
-| Path | What it does |
+### Drawn from scratch for this project
+
+| | Charm | Ritual |
+| --- | --- | --- |
+| 🪔 | **Diya** (Thooku vilakku), a brass hanging lamp | The flame flares up |
+| 🔱 | **Vel**, Murugan's leaf-bladed spear | The spear glows |
+| 📿 | **Rudraksha mala**, 27 seeds, a guru bead and a tassel | Chant a round: the seeds light up one by one, then the guru bead |
+| 🌼 | **Marigold toran** (Genda phool) | Flick it to shake out the old week |
+
+### Traditional charms from around the world
+
+Nazar boncuğu (Turkey), Hamsa (Middle East), Nimbu-mirchi (India), Ghanta (India), Drishti bommai (South India), Chinese knot, Daruma (Japan), Maneki-neko (Japan), Horseshoe, Scarab (Egypt) and Himmeli (Finland).
+
+You can also hang **any emoji** or **your own image**.
+
+---
+
+## Add a charm
+
+1. Draw it as SVG in `src/charms.js` and add an entry to `CHARMS`, with a `ritual.kind`.
+2. Handle that kind in `performRitual()` and `updateRituals()` in `src/overlay.js`.
+
+The rudraksha mala is a good example to copy. Its commit touches only those two files.
+
+| File | Purpose |
 | --- | --- |
-| `src/main.js` | Main process: overlay window, tray, shortcuts, settings |
-| `src/overlay.*` | The charm overlay and its ritual animations |
-| `src/physics.js` | Verlet rope and pendulum physics |
-| `src/charms.js` | Charm definitions, vector art and bead styles |
-| `src/gallery.*` | Charm gallery and settings window |
+| `src/main.js` | Overlay window, tray, shortcuts, settings |
+| `src/overlay.*` | The charms and their ritual animations |
+| `src/physics.js` | Verlet rope and pendulum |
+| `src/charms.js` | Charm definitions and vector art |
+| `src/gallery.*` | Gallery and settings window |
 | `src/preload.js` | Context bridge and per-platform shortcut labels |
-| `assets/` | Charm images, sounds and icons |
-
-To add a vector charm, write its SVG in `src/charms.js`, add an entry to `CHARMS`, and give it a `ritual.kind`. Handle that kind in `performRitual()` and `updateRituals()` in `src/overlay.js`.
 
 ---
 
-## Build a standalone app
+## Package it
 
 ```bash
-npm run dist:mac     # on a Mac
-npm run dist:win     # Windows portable .exe and installer
+npm run dist:mac
+npm run dist:win
 npm run dist:linux
 ```
 
-Output goes to `dist/`.
+Builds land in `dist/`.
 
 ---
 
 ## Credit and status
 
-This project started as a fork of [07bharathi/Luckydangle1.0](https://github.com/07bharathi/Luckydangle1.0), which is itself a clone of the commercial [Lucky Dangle](https://luckydangle.app/) app. That repository declares MIT in its `package.json` but ships no `LICENSE` file, so the licensing of the inherited code and art is unclear.
+Started as a fork of [07bharathi/Luckydangle1.0](https://github.com/07bharathi/Luckydangle1.0), itself a clone of the commercial [Lucky Dangle](https://luckydangle.app/) app. That repository says MIT in `package.json` but has no `LICENSE` file, so the licence of the inherited code and art is unclear.
 
-Before any public or paid release this project will:
+Before any public or paid release I will:
 
-- change the product name and app icon
-- replace the inherited charm art and descriptions with original work
-- remove the charms that use third-party characters
+- [ ] pick a new name and app icon
+- [ ] replace the inherited charm art and descriptions with original work
+- [ ] remove charms that use third-party characters
+- [ ] test and package on Mac (arm64), then Windows
 
-The original Indian charms above (diya, vel, rudraksha mala, marigold toran) are drawn from scratch as vector art in this repository.
+Done so far: original Indian charms, and several charms on screen at once.
 
-## Roadmap
-
-- [ ] New name and app icon
-- [x] Original Indian charms: diya, vel, marigold toran, rudraksha mala
-- [ ] More original charms: temple bells, lotus, kolam, jasmine gajra
-- [x] Several charms on screen at once
-- [ ] Test and package on Mac (arm64), then Windows
+Made by [Jagan](https://github.com/smartjaganrao).
